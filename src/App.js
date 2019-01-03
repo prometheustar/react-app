@@ -1,26 +1,54 @@
+import "./App.scss"
+import Home from './containers/Home'
+import Register from './containers/Register'
+import Login from './containers/Login'
+import store from './flux/store'
+
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {BrowserRouter, Route, Redirect, Link} from 'react-router-dom';
+import {Provider} from 'react-redux'
+import axios from 'axios'
+
+import {setAuthToken, setCurrentUser} from './utils/setAuth'
+// 验证本地 token
+const jwtToken = window.localStorage.jwtToken;
+if (jwtToken) {
+  setAuthToken(jwtToken); // 设置请求头 token
+  // 验证请求头token
+  axios.get(process.env.HOST + '/api/users/current')
+    .then(res => {
+      console.log(res);
+      if (!res.data.success) {
+        setAuthToken(false);
+        setCurrentUser({});
+      } else {
+        // token 验证成功
+        setAuthToken(jwtToken);
+        setCurrentUser(res.data.payload.user);
+      }
+    })
+    .catch(err => {
+      setAuthToken(false);
+      setCurrentUser({});
+    });
+}
 
 class App extends Component {
+  componentDidMount(){
+    // console.log(process.env);
+  }
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+        <Provider store={store}>
+          <BrowserRouter>
+            <div className="App">
+              <Route path="/" exact component={Home} />
+              <Route path="/register" component={Register} />
+              <Route path="/login" component={Login} />
+              {/*<Redirect to="/" />*/}
+            </div>
+          </BrowserRouter>
+        </Provider>
     );
   }
 }

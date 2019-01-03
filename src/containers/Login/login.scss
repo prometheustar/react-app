@@ -1,0 +1,111 @@
+/**
+ * 登录页
+ */
+.login-wrap {
+	background-color: #EF4E3C;
+}
+.login-title {
+	background-color: #fff8f0;
+	height: 38px;
+}
+.login-form {
+	height: 475px;
+	width: 990px;
+	margin: 0 auto;
+	position: relative;
+	background: url(http://127.0.0.1:5000/image/ui/5bf3a5d1Nbe6dc545.jpg) no-repeat center;
+	.form {
+		position: absolute;
+		right: 0;
+		top: 50%;
+		margin-top: -218px;
+		height: 436px;
+		width: 350px;
+		background-color: white;
+
+	}
+}
+.form-t{
+	padding: 20px 0;
+	border-bottom: 1px solid #f4f4f4;
+	&::after {
+		content: "";
+		display: block;
+		clear: both;
+	}
+	div {
+		font-size: 1.8rem;
+		width: 50%;
+		text-align: center;
+		cursor: pointer;
+		&:hover {
+			color: #e4393c;
+    		font-weight: bold;
+		}
+	}
+	.f1 {
+		// 选中字体
+		color: #e4393c;
+    	font-weight: bold;
+	}
+	.f2 {
+		// 未选字体
+		color: #666;
+	}
+	.t-l {
+		float: left;
+		box-sizing: border-box;
+		border-right: 1px solid #f4f4f4;
+	}
+	.t-r {
+		float: right;
+	}
+}
+/**
+ * 手机注册页
+ */
+.l-input-wrap {
+	width: 304px;
+	margin: 20px auto;
+	label {
+		width: 39px;
+		height: 40px;
+		float: left;
+		display: block;
+		border-right: 1px solid #ddd;
+		background: url(http://127.0.0.1:5000/image/ui/pwd-icons-new.png);
+	}
+	input {
+		display: block;
+		float: left;
+		height: 38px;
+		border: 0;
+		padding: 0 5px;
+		box-sizing: border-box;
+	}
+	&>div {
+		width: 306px;
+		height: 40px;
+		margin-bottom: 20px;
+		border: 1px solid #ddd;
+	}
+}
+.log-input1 {
+	input {
+		width: 265px;
+	}
+	label {
+		background: url();
+	}
+}
+.log-input2 {
+	input {
+		width: 200px;
+	}
+	label {
+
+	}
+	.btn {
+		width: 60px;
+	}
+}
