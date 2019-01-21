@@ -3,6 +3,8 @@ import {connect} from 'react-redux'
 import axios from 'axios'
 import classnames from 'classnames'
 
+import config from '../../../utils/config.js'
+
 class Step2 extends Component {
 	constructor(props) {
 		super(props);
@@ -44,7 +46,7 @@ class Step2 extends Component {
 	}
 	nicknameRepeat(callback) {
 	// 验证名字重复
-		axios.post(process.env.HOST + '/api/users/nickname', {nickname: this.state.nickname})
+		axios.post(config.HOST + '/api/users/nickname', {nickname: this.state.nickname})
 			.then(res => {
 				console.log(res);
 				if (!res.data.success) {
@@ -130,7 +132,7 @@ class Step2 extends Component {
 					password: this.state.password,
 					phone: this.props.register.phone
 				}
-				axios.post(process.env.HOST + "/api/users/register", newUser)
+				axios.post(config.HOST + "/api/users/register", newUser)
 					.then(res => {
 						if (res.data.success) {
 							// 验证通过

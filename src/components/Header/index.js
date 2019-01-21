@@ -3,21 +3,57 @@ import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 
+import './index.scss'
+import {setAuthToken, setCurrentUser} from '../../utils/setAuth'
 class AppHeader extends Component {
+	constructor() {
+		super();
+		this.state = {
+
+		}
+	}
+	// 退出
+	loginOut() {
+		setAuthToken(false); // axios token 头清除，localStorage token清除
+		setCurrentUser({}); // dispatch 当前空用户
+	}
 	render() {
 		const auth = this.props.auth;
+		console.log(auth);
+		const hello = (<ul className="ul-l">
+						<li>哈，欢迎来到xx</li>
+						<li>
+							<Link to="/login">请登录</Link>
+						</li>
+						<li>
+							<Link to="/register">免费注册</Link>
+						</li>
+					</ul>)
+		const userinfo = (<ul className="ul-l">
+						<li>Hi，{auth.user.nickname}</li>
+						<li>
+							<span to="/login">积分0</span>
+						</li>
+						<li>
+							<Link to="/">消息0</Link>
+						</li>
+						<li>
+							<a onClick={this.loginOut.bind(this)} href="javascript:void(0)">退出</a>
+						</li>
+					</ul>)
 		return (
 			<div className="app-header-wrap">
 				<div className="app-header">
-					<h1>漂泊</h1>
 					{
-						auth.isLogin ?
-						(<ul>
-							<li>{auth.user.nickname}</li>
-							<li>{auth.user.phone}</li>
-						</ul>) :
-						null
+						auth.isLogin ? 
+						userinfo :
+						hello
 					}
+					<ul className="ul-r">
+						<li>我的淘宝</li>
+						<li>购物车0件</li>
+						<li>商家支持</li>
+					</ul>
 				</div>
 			</div>
 		)

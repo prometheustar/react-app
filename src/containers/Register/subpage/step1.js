@@ -3,6 +3,8 @@ import axios from 'axios'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 
+import config from '../../../utils/config.js'
+
 class Step1 extends Component {
 	constructor(props) {
 		super(props);
@@ -48,7 +50,7 @@ class Step1 extends Component {
 		this.setState({
 			errors: {}
 		});
-		axios.post(process.env.HOST + '/api/operator/testsms', {phone: this.state.phone})
+		axios.post(config.HOST + '/api/operator/testsms', {phone: this.state.phone})
 			.then(res => {
 				if (!res.data.success) {
 					this.setState({errors: {...this.state.errors, phone: '服务器忙，稍后重试'}});
@@ -63,10 +65,11 @@ class Step1 extends Component {
 				console.log(res.data.payload.smsCode); // 打印验证码
 			})
 			.catch(err => {
+				console.log(err);
 				this.setState({
 					errors: {
 						...this.state.errors,
-						phone: err.response.msg
+						phone: err.message
 					}
 				});
 			});
