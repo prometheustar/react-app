@@ -4,11 +4,17 @@
 
 import {combineReducers} from 'redux'
 
-import register from './register.js'
-import auth from './authReducer.js'
+import register from './register'
+import auth from './authReducer'
+import product from './product'
+import order from './order'
+import chat from './chat'
 
 let rootReducer = combineReducers({
 	register,
-	auth
+	auth,
+  product,
+  order,
+  chat
 });
 export default rootReducer;

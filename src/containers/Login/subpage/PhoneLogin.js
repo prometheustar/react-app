@@ -36,13 +36,12 @@ class PhoneLogin extends React.Component {
 	}
 	sendSMS() {
 		if (!isPhone(this.state.phone)) {
-			this.setState({
+			return this.setState({
 				errors: {
 					...this.state.errors,
 					phone: '手机号码错误'
 				}
-			});
-			return;
+			})
 		}
 		// 格式正确
 		if (this.state.errors.phone) {
@@ -52,11 +51,11 @@ class PhoneLogin extends React.Component {
 					phone: '',
 					sms: ''
 				}
-			});
+			})
 		}
 		axios.post(config.HOST + "/api/operator/testsms", {phone: this.state.phone})
 			.then(({data}) => {
-				console.log(data.payload.smsCode);
+				console.log(data.smsCode);
 			})
 			.catch(err => {
 				console.log(err);
@@ -70,13 +69,12 @@ class PhoneLogin extends React.Component {
 			errors = {sms: '验证码为空'}
 		}
 		if (errors) {
-			this.setState({
+			return this.setState({
 				errors: {
 					...this.state.errors,
 					...errors
 				}
-			});
-			return;
+			})
 		}
 		// 格式验证成功
 		const user = {phone: this.state.phone, sms_code: this.state.sms}
@@ -84,18 +82,17 @@ class PhoneLogin extends React.Component {
 			.then(res => {
 				console.log(res);
 				if (!res.data.success) {
-					this.setState({
+					return this.setState({
 						errors: {
 							...this.state.errors,
 							submit: res.data.message
 						}
-					});
-					return;
+					})
 				}
 				// 验证通过
-				setAuthToken(res.data.payload.token); // 请求头附加token
-				setCurrentUser(res.data.payload.user);
-				this.props.history.push('/');
+				setAuthToken(res.data.payload.token) // 请求头附加 token
+				setCurrentUser(res.data.payload)
+        this.props.history.push(this.props.auth.location || '/')
 			})
 			.catch(err => {
 				this.setState({
@@ -111,7 +108,7 @@ class PhoneLogin extends React.Component {
 			<div className="l-input-wrap">
 				<div className="log-input1">
 					<label htmlFor="phone"></label>
-					<input 
+					<input
 						placeholder="输入手机号码"
 						onChange={this.inputChange}
 						value={this.state.phone}
@@ -120,7 +117,7 @@ class PhoneLogin extends React.Component {
 						type="text"/>
 				</div>
 				{
-					this.state.errors.phone ? 
+					this.state.errors.phone ?
 					<span>{this.state.errors.phone}</span>:
 					null
 				}
@@ -136,13 +133,13 @@ class PhoneLogin extends React.Component {
 					<button className="btn" onClick={this.sendSMS.bind(this)}>发送验证码</button>
 				</div>
 				{
-					this.state.errors.sms ? 
+					this.state.errors.sms ?
 					<span>{this.state.errors.sms}</span>:
 					null
 				}
 				<input type="submit" onClick={this.submit.bind(this)} value="登录"/>
 				{
-					this.state.errors.submit ? 
+					this.state.errors.submit ?
 					<span>{this.state.errors.submit}</span>:
 					null
 				}

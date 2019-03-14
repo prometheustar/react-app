@@ -9,6 +9,6 @@ export const isPhone = number => {
 }
 
 export const isLength = (value, opts) => {
-	if (typeof values !== 'string') return false;
-	return (value.length > opts.min && value.length < opts.max)
+	if (typeof value !== 'string') return false;
+	return (value.length >= opts.min && value.length <= opts.max)
 }

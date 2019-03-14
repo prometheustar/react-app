@@ -8,6 +8,12 @@ import Account from './subpage/Account'
 import PhoneLogin from './subpage/PhoneLogin'
 
 class Login extends Component {
+  componentWillMount() {
+    // 已登录，不能访问登录页面
+    if (this.props.auth.isLogin) {
+      this.props.history.goBack()
+    }
+  }
 	render() {
 		/**
 		 * v4 包含路由 和 精准路由

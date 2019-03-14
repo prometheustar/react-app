@@ -2,11 +2,13 @@ import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
 import cnames from 'classnames'
+import { connect } from 'react-redux'
+
+import { setSearchKeyAction } from '../../flux/actions/productActions'
+import { setRouterLocationAction } from '../../flux/actions/authActions'
 
 import './home.scss'
 import config from '../../utils/config.js'
-import Register from '../Register'
-import Login from '../Login'
 import AppHeader from '../../components/Header'
 import Slide from './subpage/Slide'
 import SmaillType from './subpage/SmaillType'
@@ -18,12 +20,14 @@ class Home extends Component {
 			navTop: ['超市', '会员', '电器城', '鲜生', '医药馆', '营业厅', '旅行', '图书'],
 			// 大分类信息
 			bigType:[],
-			selectedBigid: -1 // -1 不展示，其他为 bigType的 id
+			selectedBigid: -1, // -1 不展示，其他为 bigType的 id
+      searchKey: ''
 		}
 		this.onBigTypeSelect = this.onBigTypeSelect.bind(this);
 		this.CurrentSmaillType = this.CurrentSmaillType.bind(this);
 	}
 	componentWillMount() {
+    this.props.setRouterLocationAction('/')
 		// 获取大分类表中数据
 		axios.get(config.HOST + '/api/goods/type?type=big&limit=16')
 			.then(res => {
@@ -38,15 +42,11 @@ class Home extends Component {
 				console.error(err);
 			});
 	}
-	componentDidMount() {
-		
-	}
-	
 	// 设置或获取 state的bigType 的 smaillType
 	CurrentSmaillType(bigid, smaillType, getSmaill = false) {
 		var bigType = this.state.bigType;
 		if (bigType.length === 0) return;
-		
+
 		for (var i = 0,len = bigType.length; i < len; i++) {
 			if (bigType[i]._id === bigid) {
 				// 获取smaillType
@@ -61,6 +61,7 @@ class Home extends Component {
 			}
 		}
 	}
+  // 获取小分类表
 	onBigTypeSelect(e) {
 		// showsmaill => true
 		var bigid = Number(e.currentTarget.getAttribute('bigid'));
@@ -79,18 +80,30 @@ class Home extends Component {
 	onBigTypeLeave(){
 		this.setState({selectedBigid: -1});
 	}
+  searchInputChange(e) {
+    this.setState({
+      searchKey: e.target.value
+    })
+  }
+  searchProduct(e) {
+    e.preventDefault();
+    this.props.setSearchKeyAction(this.state.searchKey)
+    this.props.history.push(`/search_product?q=${this.state.searchKey}&limit1=0&limit2=50`);
+  }
 	render() {
 		return (
 			<div>
 				<AppHeader />
 				<div className="headerCon">
-					<form>
-						<input 
+					<form onSubmit={this.searchProduct.bind(this)}>
+						<input
 							type="text"
 							className="search-text"
+              value={this.state.searchKey}
+              onChange={this.searchInputChange.bind(this)}
 							placeholder="搜索 优选 商品/品牌/店铺"
 						/>
-						<button className="search-btn">搜索</button>
+						<button type="submit" className="search-btn">搜索</button>
 					</form>
 					<ul className="hot-query">
 					{/*搜索框下面展示*/}
@@ -127,8 +140,8 @@ class Home extends Component {
 							<div className="nav-l-typewrap">
 							{
 								this.state.bigType.map(item => (
-									<div 
-										key={item._id} 
+									<div
+										key={item._id}
 										className={cnames("nav-l-item", {
 											'nav-l-item-sel': this.state.selectedBigid===item._id
 										})}
@@ -152,4 +165,4 @@ class Home extends Component {
 	}
 }
 
-export default Home;
+export default connect(null, { setSearchKeyAction,setRouterLocationAction })(Home);

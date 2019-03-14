@@ -8,7 +8,6 @@ class Step3 extends Component {
 		this.props.changeStep(3);
 	}
 	render() {
-		console.log(this.props);
 		const users = this.props.register
 		return(
 			<div>

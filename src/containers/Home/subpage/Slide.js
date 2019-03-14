@@ -23,7 +23,8 @@ class slide extends Component {
 			],
 			slideStop: false,  // 是否停止轮播图
 			slideIndex: 0,  // 轮播图索引
-			slideInterval: -1  // 主定时器
+			slideInterval: -1,  // 主定时器
+      slideTimeout: -1
 		}
 		this.slideAnimate = this.slideAnimate.bind(this);
 		this.gotoSlide = this.gotoSlide().bind(this);
@@ -31,6 +32,7 @@ class slide extends Component {
 		this.slideStop = this.slideStop.bind(this);
 	}
 	componentDidMount() {
+    if (typeof window !== 'object') return;
 		// 组件挂载完毕,获取轮播图组件，开启轮播图
 		this.setState({
 			slideboxs: window.document.getElementsByClassName("slide-img-box")
@@ -48,8 +50,10 @@ class slide extends Component {
 	}
 	// 组件卸载
 	componentWillUnmount() {
-		// 清除轮播图主定时器
-		window.clearInterval(this.state.slideInterval);
+    if (typeof window !== 'object') return;
+      // 清除轮播图主定时器
+    window.clearInterval(this.state.slideInterval);
+    window.clearTimeout(this.state.slideTimeout);
 	}
 	// 动画切换函数，before 消失，next 显示
 	slideAnimate(next) {
@@ -65,14 +69,15 @@ class slide extends Component {
 			slideboxs[next].style.opacity = nextOpa;
 		}, 50);
 		// 停止动画，完成转换
-		window.setTimeout(function() {
+		var slideTimeout = window.setTimeout(function() {
 			window.clearInterval(interval);
 			slideboxs[before].style.opacity = 0;
 			slideboxs[next].style.opacity = 1;
 			// 更新显示索引
-			_this.setState({
-				slideIndex: next
-			});
+      _this.setState({
+        slideIndex: next,
+        slideTimeout: slideTimeout
+      });
 		}, 200);
 	}
 	// 切换动画索引
@@ -95,7 +100,7 @@ class slide extends Component {
 						time = nowtime;
 				}, 300);
 			}
-			
+
 		}
 	}
 	// 停止动画
@@ -122,8 +127,8 @@ class slide extends Component {
 		{
 			slideImg.map((item,index) => (
 				<div key={index} className="slide-img-box" style={{backgroundColor: item.bgcolor}}>
-					<div 
-					className="slide-img-box-i" 
+					<div
+					className="slide-img-box-i"
 					style={{background: `url(${config.HOST}${item.bgimg}) no-repeat center`}}
 					onMouseOver={this.slideStop}
 					></div>
@@ -135,7 +140,7 @@ class slide extends Component {
 			{
 				slideImg.map((_, index) => {
 					return (
-						<li key={index} 
+						<li key={index}
 							className={cnames("slide-nav-item",{
 								'slide-nav-selected': index === this.state.slideIndex
 							})}
@@ -148,7 +153,7 @@ class slide extends Component {
 			</ul>
 		</div>
 	)
-	} 
+	}
 }
 
 export default slide;

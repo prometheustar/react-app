@@ -1,0 +1,58 @@
+.member-header {
+  background-color: #7e3cf4;
+  color: #fff;
+  line-height: 34px;
+  height: 34px;
+  padding: 12px 0;
+  a {
+    color: #fff;
+  }
+}
+.member-header-wrap {
+  width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+.mh-choice-box {
+  position: absolute;
+  top: 0;
+  left: 230px;
+}
+
+.member-header-home {
+  position: relative;
+  &::after {
+    content: "";
+    display: block;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid #fff;
+    border-top: 6px solid transparent;
+    position: absolute;
+    left: 50%;
+    margin-left: -6px;
+    margin-bottom: -12px;
+  }
+}
+.member-wrap {
+  margin: 20px auto;
+  width: 1000px;
+  border: 1px solid red;
+  &::after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+  .member-nav {
+    width: 30%;
+    box-sizing: border-box;
+    float: left;
+  }
+  .member-info {
+    width: 70%;
+    box-sizing: border-box;
+    float: left;
+  }
+}

@@ -1,0 +1,142 @@
+.search-product {
+  width: 1050px;
+  margin: 0 auto;
+}
+.search-hr {
+  margin: 30px 0 5px 0;
+}
+.substore {
+  color: #666;
+  font-size: 12px;
+  a {
+    color: #666;
+    &:hover {
+      color: #e22;
+      text-decoration: underline;
+    }
+  }
+  .crum {
+    &::after {
+      content: "";
+      display: block;
+      clear: both;
+    }
+    &>div {
+      float: left;
+      padding: 3px 8px;
+      position: relative;
+      &::after {
+        content: ">";
+        display: inline-block;
+        margin-left: 8px;
+      }
+    }
+    .crum-1 {
+
+    }
+    .crum-2 {
+
+    }
+    .crum-3 {
+      box-sizing: border-box;
+      border: 1px dotted #777;
+      position: relative;
+      &::after {
+        content: ">";
+        display: inline-block;
+        transform-origin: 50% 50%;
+        transform: rotate(90deg);
+      }
+      &:hover .crum-details {
+        display: block;
+      }
+      &:hover::after {
+        transform-origin: 50% 50%;
+        transform: rotate(-90deg);
+      }
+    }
+    .crum-details {
+      display: none;
+      width: 70px;
+      background-color: rgba(0,0,0,.7);
+      padding: 10px 20px;
+      position: absolute;
+      top: 23px;
+      left: 0;
+      &>li {
+        margin-bottom: 5px;
+      }
+      a {
+        color: #fff;
+        &:hover {
+          color: #f40;
+        }
+      }
+      .crum-selected {
+        color: #999;
+        &:hover {
+          color: #ccc;
+        }
+      }
+    }
+  }
+  .substore-logo-box {
+    width: 1200px;
+    margin: 10px auto 20px auto;
+    box-sizing: border-box;
+    border: 3px solid #ccc;
+    background: #F7F5F5;
+    &::after {
+      content: "";
+      display: block;
+      clear: both;
+    }
+    .s-logo-title {
+      width: 10%;
+      height: 100%;
+      box-sizing: border-box;
+      padding: 10px;
+      color: #B0A59;
+      float: left;
+    }
+    .s-logo-wrap {
+      width: 90%;
+      box-sizing: border-box;
+      padding: 5px 10px;
+      background: #fff;
+      float: left;
+      &::after {
+        content: "";
+        display: block;
+        clear: both;
+      }
+    }
+    .s-logo-item {
+      width: 80px;
+      height: 100px;
+      float: left;
+      cursor: pointer;
+      border: 1px solid #ccc;
+    }
+    .s-store-logo {
+      width: 80px;
+      height: 80px;
+      &>img {
+        width: 80px;
+      }
+    }
+    .s-store-name {
+      display: block;
+      width: 80px;
+      height: 19px;
+      line-height: 19px;
+      border-top: 1px solid #ccc;
+      text-align: center;
+      overflow: hidden;
+      color: rgba(0,0,0,.4);
+      &:hover {
+        color: #b57c5b;
+      }
+    }
+  }
+}

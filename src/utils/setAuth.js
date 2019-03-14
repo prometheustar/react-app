@@ -1,5 +1,6 @@
 import axios from 'axios'
 import store from '../flux/store'
+import socket from './socket'
 
 export const setAuthToken = token => {
 	if (token) {
@@ -7,6 +8,10 @@ export const setAuthToken = token => {
 		axios.defaults.headers.common["Authorization"] = token;
 		 // 添加localStorage 储存token
 		window.localStorage.setItem("jwtToken", token);
+    // 初始化 websocket
+    if (socket.status === 'close') {
+      socket.initSocket(token)
+    }
 	} else {
 		// 删除请求头 token
 		delete axios.defaults.headers.common["Authorization"];
@@ -21,3 +26,4 @@ export const setCurrentUser = payload => {
 		payload
 	})
 }
+

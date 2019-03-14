@@ -19,7 +19,6 @@ class AppHeader extends Component {
 	}
 	render() {
 		const auth = this.props.auth;
-		console.log(auth);
 		const hello = (<ul className="ul-l">
 						<li>哈，欢迎来到xx</li>
 						<li>
@@ -30,7 +29,7 @@ class AppHeader extends Component {
 						</li>
 					</ul>)
 		const userinfo = (<ul className="ul-l">
-						<li>Hi，{auth.user.nickname}</li>
+						<li>Hi，<Link to="/member">{auth.user.nickname}</Link></li>
 						<li>
 							<span to="/login">积分0</span>
 						</li>
@@ -45,13 +44,13 @@ class AppHeader extends Component {
 			<div className="app-header-wrap">
 				<div className="app-header">
 					{
-						auth.isLogin ? 
+						auth.isLogin ?
 						userinfo :
 						hello
 					}
 					<ul className="ul-r">
-						<li>我的淘宝</li>
-						<li>购物车0件</li>
+						<li><Link to="/member">我的淘宝</Link></li>
+						<li><Link to="/member">购物车0件</Link></li>
 						<li>商家支持</li>
 					</ul>
 				</div>

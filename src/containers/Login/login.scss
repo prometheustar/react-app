@@ -13,7 +13,7 @@
 	width: 990px;
 	margin: 0 auto;
 	position: relative;
-	background: url(http://127.0.0.1:5000/image/ui/5bf3a5d1Nbe6dc545.jpg) no-repeat center;
+	background: url('http://127.0.0.1:5000/image/ui/5bf3a5d1Nbe6dc545.jpg') no-repeat center;
 	.form {
 		position: absolute;
 		right: 0;
@@ -73,7 +73,7 @@
 		float: left;
 		display: block;
 		border-right: 1px solid #ddd;
-		background: url(http://127.0.0.1:5000/image/ui/pwd-icons-new.png);
+		background: url('http://127.0.0.1:5000/image/ui/pwd-icons-new.png');
 	}
 	input {
 		display: block;
@@ -95,7 +95,7 @@
 		width: 265px;
 	}
 	label {
-		background: url();
+
 	}
 }
 .log-input2 {

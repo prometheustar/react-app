@@ -89,6 +89,7 @@ class Step1 extends Component {
 		this.props.history.push('/register/step2')
 	}
 	componentDidMount() {
+    if (typeof window !== 'object') return;
 		// 组件挂载完毕，绑定原生事件
 		const _this = this;
 		// 鼠标按下
@@ -96,7 +97,7 @@ class Step1 extends Component {
 		function slideCheck(e) {
 			let start = e.screenX;
 			// 滑块滑动总长度
-			let width = window.parseInt(window.getComputedStyle(_this.refs.slide, false)["width"]) - 
+			let width = window.parseInt(window.getComputedStyle(_this.refs.slide, false)["width"]) -
 				window.parseInt(window.getComputedStyle(_this.refs.slideBlock, false)["width"]);
 			console.log(width);
 			// 鼠标移动
@@ -154,7 +155,7 @@ class Step1 extends Component {
 					</div>
 				</div>
 				{
-					this.state.errors.phone && 
+					this.state.errors.phone &&
 					(<p>{this.state.errors.phone}</p>)
 				}
 				<div className="s1-item">
@@ -173,7 +174,7 @@ class Step1 extends Component {
 					<div className="s1-item s1-smscode">
 						<div className="-prefix">验证码</div>
 						<div className="s1-item-body">
-							<input 
+							<input
 								type="text"
 								placeholder="输入手机验证码"
 								name="smsCode"

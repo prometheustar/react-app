@@ -30,7 +30,6 @@ class Account extends React.Component {
 		});
 	}
 	formSubmit() {
-		let info = {account: this.state.account, password: this.state.password};
 		let errors = {};
 		if (isEmpty(this.state.account)) {
 			errors.account = '账号不能为空';
@@ -38,34 +37,29 @@ class Account extends React.Component {
 			errors.password = '密码长度 6-18 位';
 		}
 		if (!isEmpty(errors)) {
-			this.setState({
+			return this.setState({
 				errors: {
 					...this.state.errors,
 					...errors
 				}
-			});
+			})
 		}
-		if (isPhone(this.state.account)) {
-			info.way = 'phone'
-		}else {
-			info.way = 'nickname'
-		}
+    let info = {account: this.state.account, password: this.state.password};
 		axios.post(config.HOST + '/api/users/login', info)
 			.then(res => {
-				console.log(res);
+        console.log(res)
 				if (!res.data.success) {
-					this.setState({
+					return this.setState({
 						errors: {
 							...this.state.errors,
-							...res.data.errors
+							submit:  res.data.message
 						}
-					});
-					return;
+					})
 				}
 				// 验证通过
-				setAuthToken(res.data.payload.token); // 请求头附加token
-				setCurrentUser(res.data.payload.user);
-				this.props.history.push('/');
+				setAuthToken(res.data.payload.token); // 请求头附加 token
+				setCurrentUser(res.data.payload);
+				this.props.history.push(this.props.auth.location || '/')
 			})
 			.catch(err => {
 				this.setState({
@@ -81,7 +75,7 @@ class Account extends React.Component {
 			<div className="l-input-wrap">
 				<div className="log-input1">
 					<label htmlFor="account"></label>
-					<input 
+					<input
 						onChange={this.inputChange}
 						value={this.state.account}
 						placeholder="昵称 / 手机号码"
@@ -89,10 +83,14 @@ class Account extends React.Component {
 						id="account"
 						type="text"/>
 				</div>
+        {
+          !this.state.errors.account ? null :
+          <div>{this.state.errors.account}</div>
+        }
 				<div className="log-input2">
 					<label htmlFor="password"></label>
-					<input 
-						type="password" 
+					<input
+						type="password"
 						placeholder="密码"
 						name="password"
 						id="password"
@@ -100,7 +98,15 @@ class Account extends React.Component {
 						value={this.state.password}
 					/>
 				</div>
+        {
+          !this.state.errors.password ? null :
+          <div>{this.state.errors.password}</div>
+        }
 				<input type="submit" onClick={this.formSubmit.bind(this)} value="登录"/>
+        {
+          !this.state.errors.submit ? null :
+          <div>{this.state.errors.submit}</div>
+        }
 			</div>
 		)
 	}

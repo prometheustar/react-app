@@ -1,0 +1,247 @@
+.shopcar {
+  // height: 800px;
+  position: fixed;
+  z-index: 9999;
+  right: 0;
+  top: 0;
+  font-family: "Microsoft Yahei";
+  &::after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+  .shopcar-nav {
+    width: 35px;
+    float: left;
+    color: #fff;
+    background-color: #000;
+    position: relative;
+  }
+  .shopcar-nav-transparent {
+    background-color: transparent;
+  }
+  .shopcar-nav-wrap {
+    background-color: #000;
+  }
+  .user-logo {
+    height: 35px;
+    box-sizing: border-box;
+    padding: 4.5px;
+    cursor: pointer;
+    background-color: #000;
+    &:hover {
+      background: #f40;
+    }
+    img {
+     width: 26px;
+     height: 26px;
+     border-radius: 50%;
+    }
+  }
+  .shop-mab {
+    cursor: pointer;
+    margin-top: 10px;
+    background-color: #000;
+    padding-bottom: 10px;
+    &:hover {
+      background-color: #FF0036;
+    }
+  }
+  .shop-mab-focus {
+    background-color: #FF0036;
+  }
+  .sp-logo {
+    img {
+      width: 35px;
+      height: 35px;
+    }
+  }
+  .sp-font {
+    text-align: center;
+    font-size: 12px;
+    width: 12px;
+    margin: 0 auto;
+  }
+  .sp-count {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+    line-height: 24px;
+    margin: 5px auto 5px auto;
+    text-align: center;
+    background: #FF0036;
+    border-radius: 50%;
+
+  }
+
+}
+.shopcar-body {
+  width: 280px;
+  height: 100%;
+  background: #e6e6e6;
+  float: left;
+  vertical-align: middle;
+  position: relative;
+  margin-right: -280px;
+  // overflow: auto;
+  input[type=checkbox] {
+    margin: 0 4px;
+  }
+  .sc-products-wrap {
+    width: 280px;
+    overflow: auto;
+    position: absolute;
+    top: 30px;
+  }
+  .sc-line-box {
+    box-sizing: border-box;
+    padding: 3px;
+    &::after {
+      content: "";
+      display: block;
+      clear: both;
+    }
+  }
+  .sc-line-item {
+    float: left;
+  }
+  .sc-line-price {
+    float: right;
+    color: #666;
+    height: 50px;
+    line-height: 50px;
+    text-align: right;
+    font-size: 12px;
+    cursor: default;
+  }
+  .sc-product-checkbox {
+    padding-top: 16px;
+  }
+  .sc-choice-all-wrap {
+    height: 30px;
+    line-height: 30px;
+    font-size: 12px;
+    color: #666;
+  }
+  .sc-store-wrap {
+    background: #fff;
+    box-sizing: border-box;
+    padding: 5px;
+    margin-bottom: 8px;
+  }
+  .sc-store-title {
+    border-bottom: 1px solid #ccc;
+  }
+  .sc-store-name {
+    color: #333;
+    font-size: 12px;
+    cursor: default;
+  }
+  .sc-product-wrap {
+    padding: 5px 0;
+    position: relative;
+    &:hover .sc-choice-wrap {
+      display: block;
+    }
+  }
+  .sc-product-spec {
+    width: 54px;
+    height: 50px;
+    font-size: 10px;
+    color: #999;
+  }
+  .sc-product-spec-item {
+    width: 100%;
+    line-height: 25px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  .sc-product-logo {
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    img {
+      width: 50px;
+    }
+  }
+  .sc-product-number {
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    color: #999;
+    font-size: 12px;
+  }
+
+  .sc-choice-wrap {
+    display: none;
+    img {
+     width: 16px;
+     height: 16px;
+     cursor: pointer;
+    }
+  }
+  .sc-choice-unlike {
+    position: absolute;
+    top: 25px;
+    left: 128px;
+  }
+  .sc-choice-like {
+    position: absolute;
+    top: 22px;
+    left: 157px;
+  }
+  .sc-choice-delete {
+    position: absolute;
+    top: 3px;
+    left: 240px;
+  }
+}
+.sc-Cashier-wrap {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 10px 10px 10px;
+  background-color: #f6f6f6;
+  .sc-Cashier-clear {
+    height: 30px;
+    line-height: 30px;
+    font-size: 12px;
+    &::after {
+      content: "";
+      display: block;
+      clear: both;
+    }
+  }
+  .sc-s-count {
+    float: left;
+  }
+  .sc-s-price {
+    float: right;
+    color: #ff0036;
+  }
+  .sc-Cashier {
+    height: 40px;
+    line-height: 40px;
+    width: 245px;
+    margin: 0 auto;
+    text-align: center;
+    background: #ff0036;
+    font-size: 14px;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    vertical-align: middle;
+    position: relative;
+    .sc-Cashier-icon {
+      position: absolute;
+      top: 3px;
+      left: 140px;
+    }
+  }
+  .sc-empty {
+    background: #666;
+  }
+}
