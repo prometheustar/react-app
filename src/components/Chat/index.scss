@@ -212,6 +212,12 @@ div.textarea-f1 {
   height: 36px;
   position: relative;
 }
+.char-err {
+  position: absolute;
+  bottom: 0;
+  right: 80px;
+  color: red;
+}
 .chatw-s-sendbtn {
   cursor: pointer;
   height: 30px;
@@ -410,11 +416,14 @@ div.textarea-f1 {
     font-size: 14px;
     font-family: MingLiU,SimHei,Microsoft YaHei;
     padding: 3px 0 5px 0;
+    text-align: left;
   }
   // 消息样式
   .chat-msg-target,.chat-msg-me {
     padding: 8px 5px;
     max-width: 250px;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
   }
   .chat-msg-target {
     margin-left: 28px;
@@ -429,11 +438,51 @@ div.textarea-f1 {
   }
   .chat-msg-me,.chat-msg-target {
     img {
-      // 缩小
-      //cursor: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAB3ElEQVQ4T6WTMWiTURDH/3ckHzGClIAIQSXDJyHfewaKIF2Ko4O4SBGHDiLiILq4uIqTKDgJOlQoVbt16KaDOIgoaBGSey8QMkSkg1NBCOiHvpMvpOFLm6roG4+73/3v/vcI//loWn0cx4ejKFpk5lII4buqrnY6nU/TcicAcRwfiKLoPjNfBKCqKkRkAVAIYTlN0xu9Xu9rHjQGVKvVcqVSeQfgaAjhZqFQeNpqtQbNZnN/COECgHsANkVkFsCPbcgYYIx5QETn0zSd7Xa7mzvlWmsPqepHVX3kvb89AUiSpMLMX0IIC9779b32aow5DWB9MBjM9Pv9b1neUEGSJAtE9Mw5tw9A+J0x1totVT3nnHuVB1xh5usicjwLWmt1J0REhs2MMdmelpxzS2OAMeYsET0RkZk/nUWmYDTqy7yC4Q4AnBCR1l6Qer1eLxaLG0R0pN1ub40BI2mZC3MiMpe3KQdja+0bAC9E5NYuG3N3MABwSUQ620mNRuMYMz8monkAV0Xk4S5AFqjVaqVyuXyHma+p6oaqvmXmk6qaHc9dAB+IaE1VLzvnViZGyM8dx/HBUqk0r6oxgM+q+t573xtZvkhEK6p6ynv/eupn+gsnzojIcwA//wmQb/AL1KnFEXCpOC0AAAAASUVORK5CYII="),pointer;
+
       // 放大
       cursor: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACCUlEQVQ4T6WTP4gTURDGvxmSJUaRI3gIwZMUa0J2n4EjIAdyWFqIjRxicYWIWIg2NrZiJQpWghYnyPmns7hOC7EQOUEPIZndQNgioleIwoES2Cz6RvZIwt5dDkFfOW/m92a+bx7hPw9Nqndd95DjOIvMXLDWDlT1WafT+TQpdwvAdd39juPcZebzAFRVhYgMALLWPkqS5FoURT+yoDGgXC4XS6XSOwCHrbXXc7nck1ar1W80GnuttecA3AGwLiKzAH6NIGOA7/v3iOhskiSz3W53vdls5geDwfE4jlejKBoYYw6q6kdVfRCG4c0tAM/zSsz81Vq7EIbhSnpZrVYPOI7zLY7jmSiKvqQx3/dPAljp9/tTvV4vTmObHXiet0BET4Mg2APA7gZI48aYDVU9EwTB6yzgEjNfFZGjnuftY+af2xVPkmS62+1+930/1WkpCIKlMcD3/dNE9FhEpkaFk0YYdTAc9VW2g00NADRFpLXbCLVarZbP59eIaKbdbm+MAUOBUhfmRGQutWm7CwDYGPMWwEsRubHDxswe9AFcEJHOKKlerx9h5odENA/gsojc3wFIA5VKpVAsFm8x8xVVXVPVVWY+pqrp8twG8IGInqvqxSAIlreMkFXddd3pQqEwr6ougM+q+j4Mw2ho+SIRLavqiTAM30z8TH/7oMaYUyLyAsDvfwJkH/gDW/T/EUXacRgAAAAASUVORK5CYII="),pointer;
     }
+  }
+
+  .wait-msg-box {
+    &::after {
+      content: "";
+      display: block;
+      clear: both;
+    }
+    .wait-logo {
+      float: right;
+      width: 20px;
+      height: 20px;
+      padding: 8px 5px 0 0;
+      background: url("http://118.126.108.36/image/ui/wait.gif") center center / 20px 20px no-repeat;
+    }
+    .chat-msg-me {
+      float: right;
+    }
+  }
+}
+
+.chat-img-wrap {
+  position: fixed;
+  z-index: 999;
+  left: 50%;
+  top: 50%;
+  margin-left: -250px;
+  margin-top: -150px;
+  text-align: center;
+  width: 500px;
+  height: 300px;
+  line-height: 300px;
+  background-color: rgba(0,0,0,.5);
+  cursor: pointer;
+  font-size: 0;
+  // 缩小
+  cursor: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAB3ElEQVQ4T6WTMWiTURDH/3ckHzGClIAIQSXDJyHfewaKIF2Ko4O4SBGHDiLiILq4uIqTKDgJOlQoVbt16KaDOIgoaBGSey8QMkSkg1NBCOiHvpMvpOFLm6roG4+73/3v/vcI//loWn0cx4ejKFpk5lII4buqrnY6nU/TcicAcRwfiKLoPjNfBKCqKkRkAVAIYTlN0xu9Xu9rHjQGVKvVcqVSeQfgaAjhZqFQeNpqtQbNZnN/COECgHsANkVkFsCPbcgYYIx5QETn0zSd7Xa7mzvlWmsPqepHVX3kvb89AUiSpMLMX0IIC9779b32aow5DWB9MBjM9Pv9b1neUEGSJAtE9Mw5tw9A+J0x1totVT3nnHuVB1xh5usicjwLWmt1J0REhs2MMdmelpxzS2OAMeYsET0RkZk/nUWmYDTqy7yC4Q4AnBCR1l6Qer1eLxaLG0R0pN1ub40BI2mZC3MiMpe3KQdja+0bAC9E5NYuG3N3MABwSUQ620mNRuMYMz8monkAV0Xk4S5AFqjVaqVyuXyHma+p6oaqvmXmk6qaHc9dAB+IaE1VLzvnViZGyM8dx/HBUqk0r6oxgM+q+t573xtZvkhEK6p6ynv/eupn+gsnzojIcwA//wmQb/AL1KnFEXCpOC0AAAAASUVORK5CYII="),pointer;
+  img {
+    vertical-align: middle;
+    max-width: 500px;
+    max-height: 300px;
   }
 }
 

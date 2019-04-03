@@ -1,48 +1,76 @@
 import React, {Component} from 'react'
-import {Link, Route} from 'react-router-dom'
+import {Link, Route, Redirect} from 'react-router-dom'
+import queryString from 'query-string'
 import {connect} from 'react-redux'
-import cnames from 'classnames'
+import classnames from 'classnames'
+
+import { transURL } from '../../utils/tools'
 
 import './login.scss'
+import AppHeader from '../../components/Header'
 import Account from './subpage/Account'
 import PhoneLogin from './subpage/PhoneLogin'
+import Footer from '../../components/Footer'
 
 class Login extends Component {
-  componentWillMount() {
-    // 已登录，不能访问登录页面
-    if (this.props.auth.isLogin) {
-      this.props.history.goBack()
+  constructor(props) {
+    super(props)
+    this.state = {
+      loginWay: 'phone',  // 登录方式，phone or account
+      prev: '/'
     }
   }
+  componentWillMount() {
+    var params = queryString.parse(this.props.location.search)
+    // 已登录，不能访问登录页面
+    if (this.props.isLogin) {
+      if (params.prev) {
+        return this.props.history.push(transURL(params.prev))
+      }
+      return this.props.history.push('/')
+    }
+    this.setState({
+      prev: params.prev ? transURL(params.prev, true) : '/'
+    })
+  }
+
+  changeLoginWay(way) {
+    if (way === this.state.loginWay) return;
+    this.setState({
+      loginWay: way
+    })
+  }
+
 	render() {
 		/**
 		 * v4 包含路由 和 精准路由
 		 */
-		// 登录样式
-		let loginWay = this.props.auth.loginWay;
-		const classPhone = loginWay === 'phone' ? 'f1' : 'f2';
-		const classAccount = loginWay === 'account' ? 'f1' : 'f2';
+    if (this.props.isLogin === true) {  // 已登录带回原始路由
+      return <Redirect to={this.state.prev} />
+    }
+    var path = this.props.location.pathname
 		return (
-			<div>
+			<div className="login-body">
+        <AppHeader />
 				<div className="login-wrap">
 					<div className="login-title"></div>
 					<div className="login-form">
 						<div className="form">
 							<div className="form-t">
-								<Link to="/login">
-									<div className={'t-l ' + classPhone}>手机登录</div>
-								</Link>
-								<Link to="/login/account">
-									<div className={'t-r ' + classAccount}>账户登录</div>
-								</Link>
+                <div onClick={this.changeLoginWay.bind(this, 'phone')} className={this.state.loginWay === 'phone' ? 't-l f1' : 't-l f2'}>手机登录</div>
+                <div onClick={this.changeLoginWay.bind(this, 'account')} className={this.state.loginWay === 'account' ? 't-l f1' : 't-l f2'}>账户登录</div>
 							</div>
 							<main>
-								<Route exact path="/login/account" component={Account} />
-								<Route exact path="/login" component={PhoneLogin} />
+                {
+                  this.state.loginWay === 'phone'
+                  ? <PhoneLogin prev={this.state.prev} />
+                  : <Account prev={this.state.prev} />
+                }
 							</main>
 						</div>
 					</div>
 				</div>
+        <Footer />
 			</div>
 		)
 	}
@@ -50,7 +78,7 @@ class Login extends Component {
 
 function mapStateToProps(state) {
 	return {
-		auth: state.auth
+    isLogin: state.auth.isLogin
 	}
 }
 

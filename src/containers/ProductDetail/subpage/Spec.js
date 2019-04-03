@@ -4,12 +4,15 @@ import { Link, withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import config from '../../../utils/config'
-import { transPrice } from '../../../utils/tools'
+import { transPrice, transURL } from '../../../utils/tools'
 
 import { setBuyProductsAction } from '../../../flux/actions/orderActions'
+import { alertMessageAction } from '../../../flux/actions/messageAction'
 import socket from '../../../utils/socket'
 
 const HOST = config.HOST
+
+var initShopCar = true  // 记录是第一次更新购物车
 
 class Spec extends React.Component {
   constructor(props) {
@@ -32,6 +35,7 @@ class Spec extends React.Component {
   }
 
   componentWillMount() {
+    if (this.props.shopCar.length > 0) { initShopCar = false } // 购物车已初始化
     // 重新组合属性关系映射
     var config = this.props.specConfig
     var newConfig = []
@@ -57,6 +61,19 @@ class Spec extends React.Component {
       // 商品没有属性分类
       choiceProductDetail: Array.isArray(this.props.specName) && this.props.specName.length > 0 ? {} : this.props.goodDetail[0]
     })
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (initShopCar) {
+      initShopCar = false
+      return
+    }
+    let nowcount = this.props.shopCar.reduce((prev, next) => prev + next.products.length, 0)
+    var nextcount = nextProps.shopCar.reduce((prev, next) => prev + next.products.length, 0)
+    if (nowcount < nextcount) {
+      // 添加商品到购物车成功
+      this.props.alertMessageAction('添加成功，在购物车等 亲 >_<')
+    }
   }
 
   // 点击选择属性
@@ -167,11 +184,11 @@ class Spec extends React.Component {
         specValue: this.props.specValue.find(val => val.indexx === v).specValue
       }))
     }]
-    console.log(buyProduct)
     this.props.setBuyProductsAction(buyProduct)
     this.props.history.push('/order')
   }
 
+  // 添加到购物车
   addShopCar() {
     // 如果商品未选择，或选择数量大于库存量
     if (this.state.choiceProductDetail.amount === undefined || this.state.choiceProductDetail.amount < this.state.choiceNumber) {
@@ -179,14 +196,21 @@ class Spec extends React.Component {
         showMustChoice: true
       })
     }
+    // 未登录跳转到登录页
+    if (!this.props.isLogin) {
+      let prev = transURL(this.props.location.pathname + this.props.location.search)
+      return this.props.history.push(`/login?prev=${prev}`)
+    }
+
     if (socket.status !== 'open') {
       return this.setState({
         errors: {
           ...this.state.errors,
-          addShopCar: '服务器忙'
+          addShopCar: '网络未连接'
         }
       })
     }
+
     // webSocket 发送添加购物车请求
     socket.ws.send(JSON.stringify({
       type: 'add_shopcar_product',
@@ -322,9 +346,13 @@ Spec.propTypes = {
   comments: PropTypes.array.isRequired,
   setBuyProductsAction: PropTypes.func.isRequired,
   storeInfo: PropTypes.object.isRequired,
+  isLogin: PropTypes.bool.isRequired,
+  shopCar: PropTypes.array.isRequired,
 }
 function mapStateToProps(state) {
   return {
+    isLogin: state.auth.isLogin,
+    shopCar: state.auth.shopCar,
     goodDetail: state.product.productDetail.goodDetail,
     goodInfo: state.product.productDetail.goodInfo,
     smaillPicture: state.product.productDetail.smaillPicture,
@@ -335,4 +363,4 @@ function mapStateToProps(state) {
     goodId: state.product.productDetail.goodId,
   }
 }
-export default withRouter(connect(mapStateToProps, { setBuyProductsAction })(Spec))
+export default withRouter(connect(mapStateToProps, { setBuyProductsAction, alertMessageAction })(Spec))

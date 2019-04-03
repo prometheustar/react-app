@@ -16,4 +16,4 @@ const ReactBody = () => {
   )
 }
 // hydrate
-ReactDOM.render(<ReactBody />, document.getElementById('react-body'));
+ReactDOM.hydrate(<ReactBody />, document.getElementById('react-body'));

@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 const PayHeader = (props) => {
   return (
     <div>
-      <h2>优选 收银台</h2>
+      <h1>优选 收银台</h1>
       <span>{props.auth.user.nickname}</span>
     </div>
   )

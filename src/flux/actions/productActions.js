@@ -42,7 +42,6 @@ export const setProductDetailAction = goodId => dispatch => {
   }
   axios.get(`${HOST}/api/goods/product_detail?goodId=${goodId}`)
     .then(res => {
-      console.log(res)
       if (res.data.success) {
         dispatch({
           type: 'SET_PRODUCT_DETAIL',

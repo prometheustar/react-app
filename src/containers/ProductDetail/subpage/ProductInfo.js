@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import LazyLoad from 'react-lazyload'
 import config from '../../../utils/config'
 const HOST = config.HOST
 
@@ -36,7 +37,11 @@ class ProductInfo extends React.Component {
           {
             /*商品详情图*/
             this.state.showDetail && this.props.infoPicture.map((item, index) => (
-              <div className="info-picture-item" key={index}><img src={`${HOST}/image/goods/info/${item.link}`}/></div>
+              <div className="info-picture-item" key={index}>
+                <LazyLoad height={600} offset={100}>
+                  <img src={`${HOST}/image/goods/info/${item.link}`}/>
+                </LazyLoad>
+              </div>
             ))
           }
           {

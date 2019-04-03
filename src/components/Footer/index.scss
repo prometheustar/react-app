@@ -1,0 +1,28 @@
+.body-bottom {
+  margin-top: 130px;
+  padding: 20px 0;
+  // background-color: #efe4e0;
+  background-color: #101b1f;
+  border-top: 4px solid #f40;
+  color: #fff;
+
+  .footer-wrap {
+    width: 800px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  p {
+    font-size: 16px;
+  }
+
+  .footer-logo {
+    width: 100px;
+    height: 100px;
+    background: url(http://118.126.108.36/image/ui/frog128.png) center center / 100px 100px no-repeat;
+    position: absolute;
+    top: -105px;
+    left: 0px;
+    cursor: pointer;
+  }
+}

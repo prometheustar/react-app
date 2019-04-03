@@ -1,50 +1,71 @@
 .app-header-wrap {
-	height: 32px;
-	position: relative;
-	background-color: #f2f2f2;
-	line-height: 32px;
-	font-size: 12px;
-	color: #999;
-	padding: 0 50px;
+  height: 32px;
+  position: relative;
+  background-color: #f2f2f2;
+  line-height: 32px;
+  font-size: 12px;
+  color: #999;
+  padding: 0 50px;
 }
 
 .app-header {
-	max-width: 1100px;
-	min-width: 800px;
-	height: 32px;
-	margin: 0 auto;
-	&::after {
-		content: "";
-		display: block;
-		clear: both;
-	}
-	a {
-		color: #999;
-		&:hover {
-			color: #f40;
-			text-decoration: underline;
-		}
-	}
-	ul {
-		&::after {
-			content: "";
-			display: block;
-			clear: both;
-		}
-		&>li {
-			float: left;
-		}
-	}
-	.ul-l {
-		float: left;
-		&>li {
-			margin-right: 15px;
-		}
-	}
-	.ul-r {
-		float: right;
-		&>li {
-			margin-left: 30px;
-		}
-	}
+  max-width: 1100px;
+  min-width: 800px;
+  height: 32px;
+  margin: 0 auto;
+  &::after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+  a {
+    color: #999;
+    &:hover {
+      color: #f40;
+      text-decoration: underline;
+    }
+  }
+  ul {
+    &::after {
+      content: "";
+      display: block;
+      clear: both;
+    }
+    &>li {
+      float: left;
+    }
+  }
+  .ul-l {
+    float: left;
+    &>li {
+      margin-right: 15px;
+    }
+  }
+  .ul-r {
+    float: right;
+    &>li {
+      margin-left: 30px;
+    }
+  }
+}
+.h-my {
+  position: relative;
+  padding: 0 10px;
+  &:hover {
+    background-color: #fff;
+  }
+  &:hover .h-my-choi {
+    display: block;
+  }
+}
+.h-my-choi {
+  display: none;
+  background-color: #fff;
+  position: absolute;
+  left: 0;
+  top: 32px;
+  width: 100%;
+  text-align: center;
+  z-index: 999;
+  line-height: 22px;
 }

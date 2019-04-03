@@ -1,6 +1,12 @@
 import { setAuthToken } from './setAuth'
-import { payOrderSuccessAction } from '../flux/actions/orderActions'
-import { setShopCarAction } from '../flux/actions/authActions'
+import {
+  payOrderSuccessAction,
+  getMyOrdersAction
+} from '../flux/actions/orderActions'
+import {
+  setShopCarAction,
+  setAddressAction
+} from '../flux/actions/authActions'
 import {
   // setWaitMessageAction,
   sendChatMessageBackAction,
@@ -8,9 +14,13 @@ import {
   getContactsAction,
   initContacts
 } from '../flux/actions/chatActions'
-
 import config from './config'
+
 const WS_HOST = config.WS_HOST
+
+const state = {
+  initShopCar: true,
+}
 
 const socket = {
   status: 'close',
@@ -48,13 +58,17 @@ const socket = {
           return payOrderSuccessAction(msg.content)
 
         case 'get_shop_cat':  // 获取购物车信息
+          // if (!state.initShopCar) {
+          //   // 添加购物车
+          //   alertMessageBox('添加成功，在购物车等亲')
+          // }
+          // state.initShopCar = false
           return setShopCarAction(msg.content)
 
         case 'send_chat_message':  // 发送消息后回执
           return sendChatMessageBackAction(msg)
 
         case 'init_chat_messages':  // 初始化聊天信息
-        console.log(msg.content)
           return initContacts(msg.content)
 
         case 'receive_chat_message':  // 收到聊天消息
@@ -63,6 +77,10 @@ const socket = {
         case 'get_contacts': // 收到联系人列表信息
           return getContactsAction(msg.content)
 
+        case 'get_address':
+          return setAddressAction(msg.content)
+        case 'get_orders':
+          return getMyOrdersAction(msg.content)
         default:
           return
       }

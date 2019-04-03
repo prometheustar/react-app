@@ -1,0 +1,69 @@
+.worder-wrap {
+  width: 1000px;
+  margin: 20px auto 0 auto;
+
+  .worder-logo {
+    width: 240px;
+    height: 130px;
+    background: url(http://118.126.108.36/image/ui/home_logo.png) center center / 240px 130px no-repeat;
+  }
+
+  .wo-tit {
+    text-align: left;
+
+  }
+
+  .wo-add-info {
+    font-size: 14px;
+    color: #666;
+    background-color: #84f3f3;
+    width: 300px;
+    text-align: center;
+    line-height: 40px;
+  }
+  .wo-linkto-add {
+    color: #f40;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .wo-add-wrap {
+    min-height: 100px;
+    margin-top: 20px;
+    &::after {
+      content: "";
+      display: block;
+      clear: both;
+    }
+  }
+  .wo-add-item {
+    border: 2px solid #ccc;
+    float: left;
+    margin-left: 20px;
+    cursor: pointer;
+    padding: 5px 10px 10px 10px;
+  }
+
+  .wo-add-item-choi {
+    border-color: #f40;
+  }
+
+  .wo-add-i-recename {
+    border-bottom: 1px solid #999;
+    line-height: 23px;
+  }
+  .wo-add-i-address {
+
+  }
+  .wo-add-i-pcode {
+
+  }
+  .wo-add-i-phone {
+
+  }
+
+  .wo-add-address {
+
+  }
+}

@@ -1,27 +1,36 @@
+/**
+ * 搜索页商品列表
+ */
 import React from 'react'
+import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import config from '../../../utils/config'
 import { Link } from 'react-router-dom'
+import config from '../../utils/config'
+
+import { transPrice } from '../../utils/tools'
+
+import './goods.scss'
 
 function splitName(name) {
   if (name.length <= 50) return name;
   return name.substring(0,50) + '...'
 }
 
-const GoodsList = (props) => {
-  const HOST = config.HOST
+const HOST = config.HOST
+
+const SearchProductsList = (props) => {
   return (
     <div className="goodlist-wrap">
       {
-        props.goods.map((product, index) => {
+        props.products.map((product, index) => {
           return (
             <div className={classnames("good-wrap", {
-              rowlast: index>0 && index % 4 === 0
+              rowlast: (index + 1) % 5 === 0
             })} key={index}>
               <Link to={`/product_detail?goodId=${product._id}`}>
-                <div className="goodlogo-box"><img src={`${HOST}/image/goods/logo/${product.logo}`} alt=""/></div>
+                <div className="goodlogo-box"><img src={`${HOST}/image/goods/logo/${product.logo}_210x210q90.jpg`} alt=""/></div>
               </Link>
-              <div className="good-price"><span className="p_f1">￥</span><span className="p_f2">{product.nowPrice}</span></div>
+              <div className="good-price"><span className="p_f1">￥</span><span className="p_f2">{transPrice(product.nowPrice)}</span></div>
               <Link to={`/product_detail?goodId=${product._id}`}>
                 <div className="good-name"><span>{splitName(product.goodName)}</span></div>
               </Link>
@@ -41,4 +50,9 @@ const GoodsList = (props) => {
     </div>
   )
 }
-export default GoodsList
+
+SearchProductsList.propTypes = {
+  products: PropTypes.array.isRequired
+}
+
+export default SearchProductsList

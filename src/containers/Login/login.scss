@@ -1,11 +1,14 @@
 /**
  * 登录页
  */
+.login-body {
+  background: #EF4E3C;
+}
 .login-wrap {
 	background-color: #EF4E3C;
 }
 .login-title {
-	background-color: #fff8f0;
+	// background-color: #fff8f0;
 	height: 38px;
 }
 .login-form {
@@ -13,7 +16,7 @@
 	width: 990px;
 	margin: 0 auto;
 	position: relative;
-	background: url('http://127.0.0.1:5000/image/ui/5bf3a5d1Nbe6dc545.jpg') no-repeat center;
+	background: url('http://118.126.108.36/image/ui/5bf3a5d1Nbe6dc545.jpg') no-repeat center;
 	.form {
 		position: absolute;
 		right: 0;
@@ -34,7 +37,7 @@
 		clear: both;
 	}
 	div {
-		font-size: 1.8rem;
+		font-size: 1.6rem;
 		width: 50%;
 		text-align: center;
 		cursor: pointer;
@@ -73,7 +76,6 @@
 		float: left;
 		display: block;
 		border-right: 1px solid #ddd;
-		background: url('http://127.0.0.1:5000/image/ui/pwd-icons-new.png');
 	}
 	input {
 		display: block;
@@ -89,23 +91,65 @@
 		margin-bottom: 20px;
 		border: 1px solid #ddd;
 	}
+
+  .acc-log-err {
+    border: 0;
+    color: red;
+    text-align: right;
+    height: 20px;
+    margin: 0;
+    margin-top: -10px;
+    font-size: 12px;
+  }
+  .acc-log-err-submit {
+    margin-top: 70px;
+  }
 }
 .log-input1 {
 	input {
 		width: 265px;
+    outline: none;
 	}
 	label {
 
 	}
 }
-.log-input2 {
-	input {
-		width: 200px;
-	}
-	label {
 
-	}
-	.btn {
-		width: 60px;
-	}
+
+.account-log-submit {
+  display: block;
+  margin: 0 0 0 20px;
+  width:250px;
+  height:38px;
+  background-color:#FF3C3C;
+  font-size:16px;
+  color:#fff;
+  text-align:center;
+  line-height:40px;
+  border-radius:5px;
+  border: 0;
+  cursor: pointer;
+}
+
+
+// 短信登录
+.log-input2 {
+  position: relative;
+  input {
+    width: 160px;
+    outline: none;
+  }
+}
+.log-sendsms {
+  width: 100px;
+  height: 40px;
+  position: absolute;
+  right: 0;
+  cursor: pointer;
+  background: #ddd;
+  border: none;
+  color: #333;
+  text-align: center;
+  line-height: 40px;
+  outline: none;
 }

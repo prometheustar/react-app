@@ -1,3 +1,4 @@
+
 .member-header {
   background-color: #7e3cf4;
   color: #fff;
@@ -39,20 +40,497 @@
 .member-wrap {
   margin: 20px auto;
   width: 1000px;
-  border: 1px solid red;
   &::after {
     content: "";
     display: block;
     clear: both;
   }
   .member-nav {
-    width: 30%;
+    width: 15%;
     box-sizing: border-box;
     float: left;
   }
+  .mn-avatar {
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    text-align: center;
+    img {
+      max-width: 100px;
+      max-height: 100px;
+      vertical-align: middle;
+    }
+  }
+  .mn-navselect {
+    li {
+      width: 100px;
+      font-size: 14px;
+      margin-top: 10px;
+      text-indent: 1em;
+    }
+    a {
+      color: #666;
+    }
+  }
+  .mn-navselected {
+    a {
+      color: #e22;
+    }
+  }
   .member-info {
-    width: 70%;
+    width: 80%;
+    padding: 20px;
     box-sizing: border-box;
+    border: 1px solid #ddd;
     float: left;
+  }
+}
+
+.user-safe-wrap {
+  color: #404040;
+  font-size:14px;
+  .tit-err {
+    color: red;
+    padding-left: 26px;
+    font-size: 14px;
+  }
+  .uis-title {
+    font-weight: bold;
+  }
+
+  .uis-item {
+    text-indent: 2em;
+    margin-top: 10px;
+  }
+
+  .uis-i-modify {
+    margin-left: 20px;
+    color: #36c;
+    &:hover {
+      color: #e22;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+  .uis-i-property {
+    color: #f40;
+    font-weight: bold;
+  }
+}
+
+.uis-edit-wrap {
+  margin-top: 40px;
+  .form-err {
+    text-align: right;
+    font-size: 12px;
+    color: red;
+    width: 380px;
+  }
+  .uis-edit-item {
+    label {
+      display: inline-block;
+      width: 10em;
+      text-indent: 0;
+    }
+
+    .uis-modify-text {
+      height: 26px;
+      padding: 0 5px;
+      width: 200px;
+    }
+    .uis-pay-test {
+      width: 130px;
+    }
+  }
+
+  .uis-sms-wrap {
+    margin-top: 10px;
+    &::after {
+      content: "";
+      display: block;
+      clear: both;
+    }
+  }
+  .uis-modify-sms {
+    height: 26px;
+    padding: 0 5px;
+    width: 115px;
+    margin-left: 2.1em;
+  }
+  .uis-sms-item {
+    float: left;
+    label {
+      display: inline-block;
+      width: 10em;
+      text-indent: 2em;
+    }
+  }
+
+  .uis-sms-btn {
+    height: 28px;
+    display: inline-block;
+    width: 6em;
+    border: 1px solid #999;
+    border-left: 0;
+    text-align: center;
+    line-height: 28px;
+    cursor: pointer;
+    user-select: none;
+    background: #f5f5f7;
+  }
+}
+.uis-btn-submit {
+  margin-left: 8em;
+  margin-top: 20px;
+  button {
+    padding: 2px 10px;
+    cursor: pointer;
+    border: 1px solid #999;
+    margin: 0;
+    padding: 0;
+    width: 100px;
+    height: 30px;
+    background: #d9e4ff;
+  }
+}
+.uis-btn-pay {
+  button {
+    border: 1px solid #f40;
+    background-color: #ffeded;
+    color: #ff0036;
+    &:hover {
+      background-color: #f40;
+      color: #fff;
+    }
+  }
+}
+
+.uis-e-content {
+  margin-left: 2em;
+}
+
+// 收货地址
+.u-info {
+  .u-add-sub {
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  .u-info-title {
+    font-size: 14px;
+    color: #014d7f;
+    background-color: #f3f8fe;
+    height: 30px;
+    line-height: 30px;
+    // width: 100%;
+    margin-left: -10px;
+    padding: 0 20px;
+  }
+  .u-address-table-wrap {
+    margin-top: 30px;
+    th {
+      font-weight: 400;
+    }
+    th,td {
+      padding: 5px 5px;
+    }
+    thead {
+      background: #ebecf0;
+    }
+    .detail-address {
+      max-width: 360px;
+    }
+    .add-edit-state {
+      cursor: pointer;
+      &:hover {
+        color: #e40;
+        text-decoration: underline;
+      }
+    }
+    .default-ads {
+      background-color: #b3afd4;
+      color: #fff;
+    }
+  }
+}
+
+.u-add-form {
+  margin-top: 30px;
+  .u-add-form-item {
+    height: 30px;
+    margin-top: 10px;
+    vertical-align: middle;
+    span {
+      display: inline-block;
+      width: 80px;
+    }
+    .u-add-i-text {
+      height: 26px;
+      width: 300px;
+      font-size: 12px;
+      border-radius: 3px;
+      color: #333;
+      border: 1px solid #ccc;
+      padding: 0 8px;
+    }
+    textarea.u-add-i-text {
+      height: 30px;
+      resize: none;
+      padding: 5px 8px;
+    }
+  }
+  .u-add-textarea {
+    margin-bottom: 30px;
+  }
+  .default-check {
+    padding-left: 80px;
+    font-size: 14px;
+    margin-top: 10px;
+    vertical-align: middle;
+    &::after {
+      content: "";
+      display: block;
+      clear: both;
+    }
+    .u-add-checkbox {
+      width: 16px;
+      height: 16px;
+      margin: 0;
+      line-height: 16px;
+      display: block;
+      float: left;
+    }
+    .u-add-text {
+      line-height: 16px;
+      margin-left: 5px;
+      float: left;
+    }
+  }
+  .save-btn {
+    color: #fff;
+    border-style: solid;
+    background-color: #5584ff;
+    border-radius: 3px;
+    padding: 0 12px;
+    height: 28px;
+    line-height: 26px;
+    font-size: 12px;
+    border-width: 1px;
+    margin: 0;
+    cursor: pointer;
+    margin-left: 80px;
+    margin-top: 10px;
+  }
+  .cancel-btn {
+    background-color: #999;
+    margin-left: 20px;
+  }
+  .u-add-err {
+    color: red;
+    width: 400px;
+    text-align: right;
+  }
+}
+
+// 我的订单
+.u-order-wrap {
+  width: 100%;
+  border-bottom: 2px solid #ccc;
+  &::after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+  .u-o-item {
+    font-size: 14px;
+    text-align: center;
+    width: 20%;
+    line-height: 30px;
+    float: left;
+    box-sizing: border-box;
+    border-right: 1px solid #bbb;
+    cursor: pointer;
+    &:hover {
+      color: #f40;
+    }
+  }
+  .uoi-nav {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  .uoi-count {
+    font-size: 16px;
+    margin-left: 5px;
+  }
+  .u-o-item-last {
+    border-right: 0;
+  }
+  .uoi-hit {
+    color: #f40;
+  }
+}
+
+// 上一页，下一页按钮
+.u-o-page {
+  margin-top: 10px;
+  &::after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+  .u-o-prev,.u-o-next {
+    float: right;
+    // width: 60px;
+    height: 24px;
+    line-height: 22px;
+    background-color: #fff;
+    border: 1px solid #dcdcdc;
+    color: #3c3c3c;
+    padding: 0 12px;
+    border-radius: 3px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  .u-o-prev{
+    margin-right: 10px;
+  }
+
+  .u-o-prev-void,.u-o-next-void {
+    color: #9c9c9c;
+    cursor: not-allowed;
+  }
+}
+/**
+ * AllOrders
+ */
+.uo-i-wrap {
+  margin-top: 10px;
+}
+
+// 我的信息
+.my-info-wrap {
+  font-size: 14px;
+  .mi-err {
+    color: red;
+    width: 400px;
+    text-align: right;
+  }
+  .mi-base-tit {
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .mi-form {
+    margin-top: 20px;
+    padding-left: 20px;
+  }
+
+  .mi-nickname {
+    font-size: 14px;
+  }
+  .mi-nickname-b {
+    font-weight: bold;
+    padding: 0 0 0 10px;
+    color: #333;
+  }
+
+  .mi-item {
+    margin-top: 30px;
+    &::after {
+      content: "";
+      display: block;
+      clear: both;
+    }
+  }
+  .mi-item-sub {
+    float: left;
+    width: 100px;
+    color: #555;
+  }
+  .mi-item-body {
+    float: left;
+  }
+
+  .mi-avatar {
+    margin-top: 15px;
+  }
+
+  .mi-avatar-wrap {
+    position: relative;
+    border: 4px solid #ddd;
+    background-color: #ddd;
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    text-align: center;
+    img {
+      vertical-align: middle;
+    }
+  }
+  .mi-avatar-btn {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100px;
+    height: 25px;
+    overflow: hidden;
+    input {
+      opacity: 0;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      z-index: 99;
+    }
+    &:hover::after {
+      content: "编辑头像";
+      display: block;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      z-index: 10;
+      height: 25px;
+      line-height: 25px;
+      width: 100px;
+      text-align: center;
+      background: rgba(0,0,0,.5);
+      color: #fff;
+      cursor: pointer;
+    }
+  }
+
+  .mi-r-input {
+    input {
+      padding: 5px;
+      border: 1px solid #cecece;
+      width: 320px;
+      color: #525252;
+    }
+  }
+
+  .mi-gender-r {
+    label {
+      padding-right: 20px;
+    }
+  }
+
+  .mi-birth-body {
+    select {
+      width: 50px;
+      margin-right: 20px;
+    }
+
+    .mi-birth-year {
+      width: 60px;
+    }
+  }
+  .mi-submit {
+    display: block;
+    color: #fff;
+    padding: 0 11px;
+    border: 0;
+    cursor: pointer;
+    line-height: 22px;
+    background: linear-gradient(to bottom right, red, blue);
+    margin-top: 20px;
+    margin-left: 30px;
   }
 }

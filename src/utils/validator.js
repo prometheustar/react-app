@@ -12,3 +12,7 @@ export const isLength = (value, opts) => {
 	if (typeof value !== 'string') return false;
 	return (value.length >= opts.min && value.length <= opts.max)
 }
+
+export const isEmail = email => {
+  return /^[A-z\d]+([-_.][A-z\d]+)*@([A-z\d]+[-.])+[A-z\d]{2,4}$/.test(email)
+}

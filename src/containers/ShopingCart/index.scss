@@ -75,6 +75,28 @@
   }
 
 }
+
+.sp-chat-wrap {
+  padding: 6px 0;
+  cursor: pointer;
+  &:hover {
+    background: #5d84e4;
+  }
+  .spc-img {
+
+  }
+  .spc-notread {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+    line-height: 24px;
+    margin: 5px auto 5px auto;
+    text-align: center;
+    background: #5d84e4;
+    border-radius: 50%;
+  }
+}
+
 .shopcar-body {
   width: 280px;
   height: 100%;

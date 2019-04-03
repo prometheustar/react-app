@@ -37,25 +37,28 @@ class Step1 extends Component {
 			sms: this.state.sendSMSCode && this.state.smsCode === this.state.sendSMSCode
 		}
 	}
-	sendSMS() {
-		if (!this.validator().phone) {
-			this.setState({
-				errors: {
-					...this.state.errors,
-					phone: '手机号码格式不正确'
-				}
-			});
-			return;
-		}
-		this.setState({
-			errors: {}
-		});
+	sendSMS(e) {
+    if (!/^1\d{10}$/.test(this.state.phone)) {
+      return this.setState({
+        errors: {...this.state.errors, phone: '手机号格式不正确'}
+      })
+    }
+    var target = e.currentTarget
+    var count = 59
+    var interval = setInterval(function() {
+      target.innerText = count + '秒'
+      if (count <= 0) {
+        target.innerText = '发送'
+      }
+    }, 1000)
+
 		axios.post(config.HOST + '/api/operator/testsms', {phone: this.state.phone})
 			.then(res => {
 				if (!res.data.success) {
 					this.setState({errors: {...this.state.errors, phone: '服务器忙，稍后重试'}});
 					return;
 				}
+        return console.log(res)
 				this.setState({
 					sendSMSCode: res.data.payload.smsCode
 				}, () => {
@@ -99,7 +102,6 @@ class Step1 extends Component {
 			// 滑块滑动总长度
 			let width = window.parseInt(window.getComputedStyle(_this.refs.slide, false)["width"]) -
 				window.parseInt(window.getComputedStyle(_this.refs.slideBlock, false)["width"]);
-			console.log(width);
 			// 鼠标移动
 			document.addEventListener("mousemove", mousemove);
 			function mousemove(e) {

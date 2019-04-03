@@ -8,7 +8,8 @@ import { messageNotReadItemToChatAction, messageItemToChatAction } from '../../.
 const HOST = config.HOST
 
 function subMessage(message) {
-  return message.length < 19 ? message.replace(/{{=\w+\.(jpg|png|icon|gif|jpeg)}}/g, '【图片】') : message.replace(/{{=\w+\.(jpg|png|icon|gif|jpeg)}}/g, '【图片】').substring(0,18) + '...'
+  var msg = message.replace(/{{=\w+\.(jpg|png|icon|gif|jpeg)}}/g, '【图片】').replace('&lt;', '<').replace('&gt;', '>')
+  return message.length < 19 ? msg : msg.substring(0,18) + '...'
 }
 
 const Message = props => {

@@ -11,6 +11,7 @@ import Header from '../../components/Header'
 import StoreHeader from '../../components/StoreHeader'
 import Spec from './subpage/Spec'
 import ProductInfo from './subpage/ProductInfo'
+import Footer from '../../components/Footer'
 
 class ProductDetail extends React.Component {
   componentWillMount() {
@@ -27,6 +28,9 @@ class ProductDetail extends React.Component {
   }
   render() {
     const product = this.props.productDetail
+    if (!product || !product.goodDetail) {
+      return <div>发生了意外的错误！</div>
+    }
     return (
       <div>
         <Header />
@@ -43,6 +47,7 @@ class ProductDetail extends React.Component {
               <ProductInfo comments={product.comments} infoPicture={product.infoPicture} />
             </div>
         }
+        <Footer />
       </div>
     )
   }

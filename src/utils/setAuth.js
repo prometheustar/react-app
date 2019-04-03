@@ -1,6 +1,7 @@
 import axios from 'axios'
 import store from '../flux/store'
 import socket from './socket'
+import { isEmpty } from '../utils/validator'
 
 export const setAuthToken = token => {
 	if (token) {
@@ -16,14 +17,21 @@ export const setAuthToken = token => {
 		// 删除请求头 token
 		delete axios.defaults.headers.common["Authorization"];
 		// 删除localStorage储存的 token
-		window.localStorage.removeItem("jwtToken");
+    window.localStorage.removeItem("jwtToken");
+		// window.localStorage.clear();
 	}
 }
 
-export const setCurrentUser = payload => {
+export const setCurrentUser = user => {
+  if (isEmpty(user)) {
+    if (socket.status === 'open') {
+      socket.ws.close()
+    }
+    store.dispatch({ type: 'LOGIN_OUT_CHAT' })
+  }
 	store.dispatch({
 		type: 'SET_CURRENT_USER',
-		payload
+		payload: user
 	})
 }
 

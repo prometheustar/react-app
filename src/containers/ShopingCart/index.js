@@ -27,9 +27,9 @@ class ShopingCart extends React.Component {
     }
   }
 
-  componentWillMount() {
+  // componentWillMount() {
 
-  }
+  // }
 
   componentDidMount() {
     if (typeof(window) === 'object') {
@@ -115,7 +115,6 @@ class ShopingCart extends React.Component {
     return function() {
       var now = Date.now()
       if (now - timer > 800) {
-        console.log(product)
         if (product.number + 1 > product.amount || socket.status !== 'open') return
         socket.ws.send(JSON.stringify({
           type: 'shop_car_number_plus',
@@ -245,11 +244,11 @@ class ShopingCart extends React.Component {
       }
     }
     this.props.setBuyProductsAction(buyProducts)
+    this.showCarBody().call(this)
     this.props.history.push('/order')
   }
 
   render() {
-    console.log(this.props.notRead)
     const auth = this.props.auth
     // 未登陆
     if (!this.props.auth.isLogin || !Array.isArray(auth.shopCar)) {
@@ -275,9 +274,11 @@ class ShopingCart extends React.Component {
               <div className="sp-font">购物车</div>
               <div className="sp-count">{computeChoice.shopCarProductsLength}</div>
             </div>
-            <div onClick={this.toggleChat.bind(this)}>
-              <div><img width="35px" height="35px" src={`${HOST}/image/ui/frog.png`} /></div>
-              <div>{this.props.notRead}</div>
+            <div className="sp-chat-wrap" onClick={this.toggleChat.bind(this)}>
+              <div className="spc-img"><img width="35px" height="35px" src={`${HOST}/image/ui/${this.props.notRead > 0 ? 'frog_gua.png' : 'frog.png'}`} /></div>
+              {
+                this.props.notRead > 0 ? <div className="spc-notread">{this.props.notRead}</div> : null
+              }
             </div>
           </div>
         </div>

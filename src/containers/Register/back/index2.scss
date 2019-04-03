@@ -1,0 +1,159 @@
+.register-wrap {
+	width: 800px;
+	margin: 0 auto;
+	font-size: 15px;
+}
+// 注册第一步
+.Step1 {
+	
+}
+.s1-item {
+	width: 400px;
+	margin: 0 auto;
+	height: 40px;
+	padding: 10px 0;
+	line-height: 40px;
+
+	.prefix {
+		color: #111;
+		width: 60px;
+		float: left;
+	}
+	.s1-item-body {
+		width: 340px;
+		float: right;
+	}
+	input[type=text] {
+		width: 200px;
+		height: 26px;
+		// margin-left: 20px;
+	}
+	&::after {
+		content: "";
+		display: block;
+		clear: both;
+	}
+}
+
+.phone {
+	.s1-phone-prefix {
+		width: 100px;
+		box-sizing: border-box;
+		height: 40px;
+		text-align: center;
+		font-weight: bold;
+		border: 1px solid #9c9c9c;
+		float: left;
+	}
+	.s1-phone-input {
+		float: left;
+		input {
+			height: 36px;
+			padding: 0 10px;
+		}
+	}
+	&::after {
+		content: "";
+		display: block;
+		clear: both;
+	}
+}
+// 滑块
+.slide {
+	width: 300px;
+	height: 40px;
+	background-color: rgba(220,220,220,.6);
+	position: relative;
+}
+.slide-rate {
+	height: 100%;
+	background-color: rgba(0,255,150,.6);
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+.slide-block {
+	width: 40px;
+	height: 40px;
+	box-sizing: border-box;
+	background-color: white;
+	border: 1px solid #9c9c9c;
+	color: #9c9c9c;
+	text-align: center;
+	cursor: move;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+.s1-smscode {
+	
+}
+.register-err {
+	position: absolute;
+	width: 120px;
+	right: -120px;
+	top: 0;
+	font-size: 10px;
+	line-height: 14px;
+	color: red;
+}
+.step2 {
+	width: 600px;
+	margin: 0 auto;
+	.s2-font1 {
+		font-weight: bold;
+		font-size: 16px;
+	}
+	.s2-font2 {
+		font-weight: 400;
+		font-size: 15px;
+	}
+	.s2-item {
+		padding: 16px 0;
+		height: 37px;
+		line-height: 37px;
+		&::after {
+			content: "";
+			display: block;
+			clear: both;
+		}
+		.s2-i-left {
+			width: 150px;
+			float: left;
+			text-align: right;
+		}
+		.s2-i-right {
+			width:270px;
+			margin-left: 30px;
+			float: left;
+			position: relative;
+		}
+	}
+	input {
+		border: 1px solid #dedede;
+		height: 17px;
+	    line-height: 17px;
+	    padding: 9px;
+	    font-size: 14px;
+	    width: 240px;
+	}
+	.border-err {
+		border-color: red;
+	}
+}
+.s2-submit{
+	background-color: #f40;
+	color: white;
+	width: 150px;
+	padding: 10px 30px;
+	cursor: pointer;
+	display: block;
+	margin: 0 auto;
+	border: 0;
+	border-radius: 5px;
+}
+.s2-submit-wrap {
+	position: relative;
+	width: 300px;
+	margin: 0 auto;
+}

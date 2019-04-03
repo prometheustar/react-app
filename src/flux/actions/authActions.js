@@ -1,12 +1,5 @@
 import store from '../store'
 
-export const setLoginWay = way => dispatch => {
-	dispatch({
-		type: 'SET_LOGIN_WAY',
-		payload: way
-	});
-}
-
 export const setRouterLocationAction = location => dispatch => {
   dispatch({
     type: 'SET_ROUTER_LOCATION',
@@ -43,5 +36,21 @@ export const setShopCarAction = shopCarInfo => {
   store.dispatch({
     type: 'SET_SHOP_CAR',
     payload: shopCar
+  })
+}
+
+// 获取收货地址
+export const setAddressAction = address => {
+  if (!Array.isArray(address)) return;
+  store.dispatch({
+    type: 'SET_ADDRESS',
+    payload: address
+  })
+}
+
+export const updateUserInfo = userInfo => dispatch => {
+  dispatch({
+    type: 'UPDATE_USER_INFO',
+    payload: userInfo
   })
 }

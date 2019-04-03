@@ -7,7 +7,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import config from '../../utils/config'
 import PropTypes from 'prop-types'
-import axios from 'axios'
 import classnames from 'classnames'
 
 import './index.scss'
@@ -40,8 +39,8 @@ class Chat extends React.Component {
         var startY = e.clientY
         var top = parseInt(window.getComputedStyle(chat)['top'])
         var left = parseInt(window.getComputedStyle(chat)['left'])
-        var X = document.documentElement.clientWidth  // 窗口高宽
-        var Y = document.documentElement.clientHeight
+        // var X = document.documentElement.clientWidth  // 窗口高宽
+        // var Y = document.documentElement.clientHeight
         document.onmousemove = function(e) {
           /**
            * 判断将窗口拖出文档

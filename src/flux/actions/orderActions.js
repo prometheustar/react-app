@@ -26,3 +26,16 @@ export const payOrderSuccessAction = orderno => {
     type: 'PAY_SUCCESS'
   })
 }
+
+export const getMyOrdersAction = myOrders => {
+  store.dispatch({
+    type: 'GET_MY_ORDERS',
+    payload: myOrders
+  })
+}
+
+export const prevPageOrdersAction = () => dispatch => {
+  dispatch({
+    type: 'PREV_PAGE_ORDERS'
+  })
+}

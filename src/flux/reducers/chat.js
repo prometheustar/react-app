@@ -3,6 +3,10 @@ const initialState = {
   messagesNotRead: [],
   chatnow: undefined,
   messages: [],
+  sendingMessages: [/*{
+    target: 0,
+    message: ''
+  }*/],  // 发送中的消息
   hideWindow: true,
   hideChat: true
 }
@@ -17,7 +21,13 @@ const chatReducer = (state = initialState, action) => {
             ...i,
             content: [...i.content, {sender: action.payload.origin, msg: action.payload.content}]
           }
-        })
+        }),
+        sendingMessages: state.sendingMessages.filter(i => i.target !== action.payload.target)
+      }
+    case 'PUT_SENDING_MESSAGE':
+      return {
+        ...state,
+        sendingMessages: [...state.sendingMessages, {target: state.chatnow, message: action.payload}]
       }
     case 'RECEIVE_CHAT_MESSAGE': // 收到聊天消息
       var origin = state.messagesNotRead.find(i => i.userId === action.payload.origin)
@@ -101,6 +111,7 @@ const chatReducer = (state = initialState, action) => {
         ...state,
         chatnow: action.payload.userId,
         hideWindow: false,
+        hideChat: false,
         messagesNotRead: state.messagesNotRead.filter(i => {
           var here = i.userId !== action.payload.userId
             if (!here) {
@@ -158,6 +169,8 @@ const chatReducer = (state = initialState, action) => {
         ...state,
         hideWindow: action.payload
       }
+    case 'LOGIN_OUT_CHAT':
+      return initialState
     default:
       return state
   }

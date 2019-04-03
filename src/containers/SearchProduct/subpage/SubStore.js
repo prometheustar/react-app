@@ -35,7 +35,8 @@ class SubStore extends React.Component {
         }
       })
       .catch(err => {
-        console.error(err)
+        if (typeof(window) === 'object')
+          console.error(err)
       })
     // 获取 goods 中的 storeId
     let storeIds = [];
@@ -64,11 +65,15 @@ class SubStore extends React.Component {
         }
       })
       .catch(err => {
-        console.error(err)
+        if (typeof(window) === 'object')
+          console.error(err)
       })
   }
 
   render() {
+    var detail = this.state.detailTypes.find((detail, index) => {
+                    return detail.detailId === this.props.goods[0].detailId
+                  })
     return (
       <div className="substore">
         {
@@ -85,9 +90,7 @@ class SubStore extends React.Component {
                 <Link to={`/search_product?detailId=${this.props.goods[0].detailId}`}>
                   <span>
                   {
-                    this.state.detailTypes.find((detail, index) => {
-                      return detail.detailId === this.props.goods[0].detailId
-                    }).detailName
+                    detail ? detail.detailName : this.state.detailTypes[0].detailName
                   }
                   </span>
                 </Link>
@@ -107,23 +110,25 @@ class SubStore extends React.Component {
             </div>
           )
         }
-        <div className="substore-logo-box">
-          <div className="s-logo-title">店铺</div>
-          <div className="s-logo-wrap">
-          {
-            /*展示店铺图片*/
-            this.state.stores.map((store, index) => {
-              if (index > 8) return null
-              return (
-                <div className="s-logo-item" key={index}>
-                  <div className="s-store-logo"><img src={`${HOST}/image/store/logo/${store.logo}`} alt=""/></div>
-                  <div className="s-store-name"><span>{subStoreName(store.storeName)}</span></div>
-                </div>
-              )
-            })
-          }
+        {
+          this.state.stores.length > 0 && <div className="substore-logo-box">
+            <div className="s-logo-title">推荐店铺</div>
+            <div className="s-logo-wrap">
+            {
+              /*展示店铺图片*/
+              this.state.stores.map((store, index) => {
+                if (index > 7) return null
+                return (
+                  <div className="s-logo-item" key={index}>
+                    <div className="s-store-logo"><img src={`${HOST}/image/store/logo/${store.logo}`} alt=""/></div>
+                    <div className="s-store-name"><Link to={`/search_product?storeId=${store._id}`}><span>{subStoreName(store.storeName)}</span></Link></div>
+                  </div>
+                )
+              })
+            }
+            </div>
           </div>
-        </div>
+        }
       </div>
     )
   }
@@ -132,10 +137,4 @@ SubStore.propTypes = {
   goods: PropTypes.array.isRequired
 }
 
-function mapStateToProps(state) {
-  return {
-    goods: state.product.searchGoods
-  }
-}
-
-export default connect(mapStateToProps, null)(SubStore)
+export default SubStore

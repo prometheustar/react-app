@@ -1,0 +1,174 @@
+.order-item {
+  border: 1px solid #ddd;
+  margin-top: 10px;
+  &:hover {
+    border-color: #999;
+  }
+  .o-i-head{
+    background-color: #f1f1f1;
+    height: 40px;
+    line-height: 40px;
+    color: #3c3c3c;
+    &::after {
+      content: "";
+      display: block;
+      clear: both;
+    }
+
+    .oih-i {
+      float: left;
+    }
+    .oi-no{
+      width: 180px;
+      text-align: right;
+    }
+    .oi-date{
+      margin-left: 15px;
+      width: 120px;
+      font-weight: bold;
+    }
+
+    .oi-sumprice {
+      // margin-left: 64px;
+      width: 106px;
+      font-weight: bold;
+      text-align: center;
+      color: #de460e;
+    }
+
+    .oi-storename {
+      text-align: right;
+      width: 80px;
+      overflow: hidden;
+    }
+
+    .oih-sign {
+      float: right;
+      margin-right: 46px;
+      border: 1px solid #666;
+      line-height: 20px;
+      padding: 0 10px;
+      border-radius: 5px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    .oi-callseller {
+      margin-left: 10px;
+      cursor: pointer;
+      position: relative;
+    }
+    .oi-call-logo {
+      width: 30px;
+      height: 30px;
+      background: url('http://118.126.108.36/image/ui/frog.png') center center / 30px 30px no-repeat;
+      position: absolute;
+      z-index: 999;
+      left: 0;
+      top: 5px;
+    }
+    .oi-contact {
+      width: 50px;
+      text-align: right;
+      font-size: 12px;
+      line-height: 14px;
+      color: #c32020;
+      background-color: #ffe428;
+      border: 1px solid #c32020;
+      border-radius: 3px;
+      font-family: "Microsoft JhengHei";
+      padding: 0 5px;
+      position: absolute;
+      left: 21px;
+      top: 15px;
+    }
+
+  }
+}
+
+.oi-product {
+  padding: 10px 0 0 0;
+  &::after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+  .oip-i-wrap {
+    float: left;
+    margin-bottom: 10px;
+    &::after {
+      content: "";
+      display: block;
+      clear: both;
+    }
+  }
+
+  .oip-i {
+    float: left;
+    text-align: center;
+    height: 80px;
+  }
+  .oip-i-logo {
+    margin-left: 10px;
+    width: 80px;
+    height: 80px;
+    text-align: center;
+    vertical-align: middle;
+    overflow: hidden;
+  }
+  .oip-i-info {
+    width: 220px;
+    margin-left: 20px;
+    text-align: left;
+  }
+  .oip-i-goodname {
+
+  }
+
+  .oip-i-price {
+    width: 74px;
+    font-size: 12px;
+    color: #000;
+  }
+  .oip-i-number {
+    width: 80px;
+
+  }
+  .oip-exp {
+    width: 120px;
+    // border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+  }
+  .oip-exp-num {
+    line-height: 30px;
+  }
+
+  .oip-i-operator {
+    // margin-left: 50px;
+
+  }
+  .opre-i-wrap {
+    span {
+      color: #666;
+    }
+  }
+
+  .order-i-pay,.opre-i-wrap {
+    width: 140px;
+    float: left;
+    text-align: center;
+    button {
+      background-color: #fff;
+      border: 1px solid #dcdcdc;
+      color: #3c3c3c;
+      text-decoration: none;
+      word-break: break-all;font-weight: bolder;
+      height: 28px;
+      line-height: 26px;
+      padding: 0 12px;
+      border-radius: 3px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+  }
+}

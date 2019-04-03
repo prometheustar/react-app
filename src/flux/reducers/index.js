@@ -9,12 +9,14 @@ import auth from './authReducer'
 import product from './product'
 import order from './order'
 import chat from './chat'
+import messageBox from './messageBox'
 
 let rootReducer = combineReducers({
 	register,
 	auth,
   product,
   order,
-  chat
+  chat,
+  messageBox
 });
 export default rootReducer;

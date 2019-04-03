@@ -32,11 +32,11 @@ export const intAdd = function (a, b) {
   }
   if (deci1 !== deci2) {
     for (var i = 0, len = Math.abs(deci1 - deci2); i < len; i++) {
-    if (deci1 < deci2) {
-      a += '0'
-    }else {
-      b += '0'
-    }
+      if (deci1 < deci2) {
+        a += '0'
+      }else {
+        b += '0'
+      }
     }
   }
   var result = Number(a) + Number(b) + ''
@@ -49,14 +49,41 @@ export const transPrice = function (price) {
   /^\d+\.\d$/.test(price) ? price + '0' : price  // 一位小数
 }
 
-export const formatDate = function(date) {
+export const formatDate = function(date, year) {
   const d = new Date(date)
   if (Number.isNaN(d.getDay())) {
     return ''
   }
-  return ((d.getMonth() + 1) + '-' +
+  var format = year ? d.getFullYear() + '-' : ''
+
+  return (format + (d.getMonth() + 1) + '-' +
     d.getDate() + ' ' +
     d.getHours() + ':' +
     d.getMinutes() + ':' +
     d.getSeconds())
+}
+
+export const getDate = function(year, month) {
+  if (!/^(19|20)\d{2}$/.test(year) || !/^([1-9]|1[012])$/.test(month)) return null
+  var date = new Date(year, month, 0).getDate()
+  var days = []
+  for (var i = 1; i <= date; i++) {
+    days.push(i)
+  }
+  return days;
+}
+
+export const transSearchKeyword = (q) => {
+  if (typeof(q) !== 'string') return null
+  q = q.trim()
+  if (q === '') return null
+  return encodeURIComponent(q.replace(/([ ,.|]+)/g, '+'))
+}
+
+export const transURL = (url, reverse) => {
+  if (typeof url !== 'string' || url === '')
+    return ''
+  if (reverse)
+    return url.replace(/OxO/g, '/').replace(/OdO/g, '=').replace(/OwO/g, '?')
+  return url.replace(/\//g, 'OxO').replace(/\=/g, 'OdO').replace(/\?/g, 'OwO')
 }

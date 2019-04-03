@@ -15,7 +15,7 @@ export const initContacts = messages => {
   })
 }
 
-// 未读消息展示到聊天框
+// 点击未读消息展示到聊天框
 export const messageNotReadItemToChatAction = item => dispatch => {
   return function() {
     if (socket.status === 'open') {
@@ -31,7 +31,14 @@ export const messageNotReadItemToChatAction = item => dispatch => {
   }
 }
 
-// 已读消息展示到聊天框
+export const sendingMessageAction = msg => dispatch => {
+  dispatch({
+    type: 'PUT_SENDING_MESSAGE',
+    payload: msg
+  })
+}
+
+// 点击已读消息展示到聊天框
 export const messageItemToChatAction = item => dispatch => {
   return function() {
     dispatch({
@@ -41,12 +48,12 @@ export const messageItemToChatAction = item => dispatch => {
   }
 }
 
-// 联系人和找人 item 到聊天框
+// 点击联系人和找人 item 到聊天框
 export const contactItemToChatAction = item => {
   item = {...item, userId: item.userId || item.contactId}
-  if (store.getState().chat.chatnow === item.userId) {
-    return
-  }
+  var chat = store.getState().chat
+  if (chat.chatnow === item.userId && !chat.hideChat) return;
+
   store.dispatch({
     type: 'CONTACT_ITEM_TO_CHAT',
     payload: item
@@ -77,7 +84,6 @@ export const sendChatMessageBackAction = message => {
 
 // 收到聊天消息
 export const receiveChatMessageAction = message => {
-  console.log(message)
   if (message.origin === store.getState().chat.chatnow && socket.status === 'open') {
     socket.ws.send(JSON.stringify({
       type: 'msg_be_read',

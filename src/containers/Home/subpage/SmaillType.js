@@ -1,10 +1,11 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+import classnames from 'classnames'
 
 function SmaillType(props) {
 	var smaillType = props.smaillType || [];
 	return (
 		<div className="smaillType">
-		<h1>Detail</h1>
 		{
 			smaillType.map(item => {
 				return (
@@ -13,9 +14,11 @@ function SmaillType(props) {
 						<div className="smaill-detail">
 						{
 							item.detail.map(detail => {
-								return (
-									<span key={detail._id}>{detail.detailName}</span>
-								)
+								return (<div className="sd-item" key={detail._id}>
+                  <Link className={classnames({
+                    [`color${props.bigTypeIndex}`]: Math.random() > 0.75
+                  })} to={`/search_products?detailId=${detail._id}`}>{detail.detailName}</Link>
+                </div>)
 							})
 						}
 						</div>

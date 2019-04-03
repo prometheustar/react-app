@@ -1,0 +1,72 @@
+.message-box {
+  width: 300px;
+  height: 80px;
+  background: rgba(0,0,0,.3);
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  line-height: 80px;
+  border-radius: 20px;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  margin-left: -150px;
+  margin-top: -40px;
+  z-index: 999;
+}
+
+// 确认框
+.confirm-box {
+  width: 280px;
+  // height: 120px;
+  background: rgba(0,0,0,.5);
+  color: #fff;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  margin-left: -140px;
+  margin-top: -60px;
+  z-index: 9999;
+  border-radius: 18px 0 18px 0;
+  box-shadow: 5px 5px 10px #ccc;
+  .msg-content {
+    box-sizing: border-box;
+    padding: 10px;
+    height: 90px;
+    text-align: center;
+    line-height: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    vertical-align: middle;
+    overflow: hidden;
+  }
+  .btn-wrap {
+    &::after {
+      content: "";
+      display: block;
+      clear: both;
+    }
+  }
+  .btn-yes,.btn-cancel {
+    width: 50%;
+    float: left;
+    text-align: center;
+    line-height: 30px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  .btn-yes {
+    background: #38ce38;
+    &:hover {
+      background: #2cb52c;
+    }
+  }
+  .btn-cancel {
+    background: #5a79e8;
+    border-radius: 0 0 18px 0;
+    &:hover {
+      background: #4a6adc;
+    }
+  }
+}

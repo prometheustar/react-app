@@ -5,34 +5,29 @@ import axios from 'axios'
 
 import config from '../../../utils/config'
 import wss from '../../../utils/socket'
-import { swingChatWindowAction, setWaitMessageAction } from '../../../flux/actions/chatActions'
+import { swingChatWindowAction, setWaitMessageAction, sendingMessageAction } from '../../../flux/actions/chatActions'
 const HOST = config.HOST
 
-function readFile(file, callback) {
-  var reader = new FileReader()
-  //以二进制形式读取文件
-  reader.readAsArrayBuffer(file)
-  reader.onload = function(e) {
-    callback(e.target.result)
-  }
-}
+// function readFile(file, callback) {
+//   var reader = new FileReader()
+//   //以二进制形式读取文件
+//   reader.readAsArrayBuffer(file)
+//   reader.onload = function(e) {
+//     callback(e.target.result)
+//   }
+// }
 
 function transMessage(msg) {
-  // {{=xx.jpg}}  => <img src="xx.jpg'">
   if (msg === '' || typeof(msg) !== 'string') return msg
-  var images = null
-  try {
-    // images = msg.match(/(?<!{{=)\w+\.(jpg|jpeg|gif|png|icon)(?=}})/g)
-    images = msg.match(/\w+\.(jpg|jpeg|gif|png|icon)(?=}})/g)
-  }catch(err) {
     // firefox 不支持正则前置断言
-    images = msg.match(/\w+\.(jpg|jpeg|gif|png|icon)(?=}})/g)
-  }
+    // images = msg.match(/(?<!{{=)\w+\.(jpg|jpeg|gif|png|icon)(?=}})/g)
+  var images = msg.match(/[A-z0-9]{10}_\d{8}\.(jpg|jpeg|gif|png|ico)(?=}})/g)
   if (images) {
-    var msgs = msg.split(/{{\=\w+\.[jpgenifco]{3,4}}}/g)
+    // var msgs = msg.split(/{{\=[A-z0-9]{10}_\d{8}\.(jpg|jpeg|gif|png|ico)}}/)
+    var msgs = msg.split(/{{\=[A-z0-9]{10}_\d{8}\.[jpgenifco]{3,4}}}/i)
     msg = msgs[0]
     for (var i = 1, len = msgs.length; i < len; i++) {
-      msg += `<img src="${HOST}/image/member/chat/${/\.gif$/.test(images[i-1]) ? images[i-1] : images[i-1] + '_w80.jpg'}">${msgs[i]}`
+      msg += `<img chat="${images[i-1]}" src="${HOST}/image/member/chat/${/\.gif$/.test(images[i-1]) ? images[i-1] : images[i-1] + '_w80.jpg'}">${msgs[i]}`
     }
   }
   return msg
@@ -43,18 +38,20 @@ class ChatWindow extends React.Component {
     super(props)
     this.state = {
       hasError: false,
-      message: ''
+      message: '',
+      showChatImage: false,
+      chatImage: ''
     }
     this.scrollToButton = this.scrollToButton.bind(this)
   }
 
   static getDerivedStateFromError(error) {
-    console.log(error)
+    // console.log(error)
     return { hasError: true };
   }
 
   componentDidCatch(error, info) {
-    console.log(error, info)
+    // console.log(error, info)
     // logErrorToMyService(error, info);
   }
 
@@ -86,11 +83,22 @@ class ChatWindow extends React.Component {
         .then(res => {
           if (res.data.success) {
             _this.props.setWaitMessageAction(_this.refs.textarea.innerHTML += `<img src="${HOST}/image/member/chat/${res.data.payload}_w80.jpg">`)
+          }else {
+            console.log(res)
           }
         })
         .catch(err => {
           console.error(err)
         })
+    }
+    document.getElementsByClassName("chatw-show-wrap")[0].onclick = function(e) {
+      var img = e.target.getAttribute('chat')
+      if (img && /^\w{10}_\d{7,9}\.(jpg|png|gif|icon|jpeg)$/.test(img)) {
+        _this.setState({
+          showChatImage: true,
+          chatImage: img
+        })
+      }
     }
   }
 
@@ -103,7 +111,8 @@ class ChatWindow extends React.Component {
   }
 
   // 聊天对象改变时，拿出未发送消息
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps, b) {
+    // console.log(nextProps, b)
     if (typeof(window) !== 'object') { return }
     var chat = this.props.chat
     // 将消息中的 wait 提取出
@@ -127,6 +136,7 @@ class ChatWindow extends React.Component {
     }
     this.refs.textarea.focus()
   }
+
   scrollToButton() {
       var _this = this
         // 这里 render 还没执行，页面中组件
@@ -139,39 +149,50 @@ class ChatWindow extends React.Component {
         }, 200)
       }, 100)
   }
+
+  closeChatImage() {
+    this.setState({
+      showChatImage: false,
+      chatImage: ''
+    })
+  }
+
   // 隐藏这个窗口
   swingChatWindow() {
     this.props.swingChatWindowAction(true)
   }
 
   sendMessage() {
-    var message = this.refs.textarea.innerHTML
+    var message = this.refs.textarea.innerHTML.trim()
     if (message === '' || !this.props.chat.chatnow) return;
-    // /(?<!\<img src="http:\/\/[\d\.]+\/image\/member\/chat\/)\w+\.(gif|png|jpg|jpeg|ico)(?=_w80\.jpg">)/g
-    var images = message.match(/\w+?\.(gif|png|jpg|jpeg|ico)(?=_w80\.jpg">)/g)
-    // return console.log(images)
+    // var images = message.match(/\w+?\.(gif|png|jpg|jpeg|ico)(?=_w80\.jpg">)/g)
+    // 取出图片
+    var images = message.match(/[A-z0-9]{10}_\d{8}\.(gif|png|jpg|jpeg|ico)(?=_w80\.jpg")/g)
     if (images) {
-      var msgs = message.split(/<img src="[\w\W]+?_w80\.jpg">/)
+      var msgs = message.split(/<img [\w\W]+>/) // 根据图片分割消息
       message = msgs[0]
-      var img = ''
+      // var img = ''
       for (var i = 1, len = msgs.length; i < len; i++) {
         message += `{{=${images[i-1]}}}${msgs[i]}`
       }
     }
-    message = message.replace(/(<\/span>|<span[^>]+?>)/g, '').replace(/(<\/div>|<div[^>]*?>)/g, '')
+    message = message.replace(/<(span|font|div|br|img)[\d\D]*?>/g, '').replace(/<\/(div|span|font)>/g, '').replace(/&nbsp;/g, ' ').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    //message = message.replace(/(<\/span>|<span[^>]+?>)/g, '').replace(/(<\/div>|<div[^>]*?>)/g, '').replace(/<br>/g, '').replace(/&nbsp;/g, ' ').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    if (message === '') return;
     if (wss.status !== 'open') {
       return this.setState({
         messages: '与服务器断开连接'
       })
     }
-    this.refs.textarea.innerText = '' // 清空消息
-    this.props.setWaitMessageAction('')
+    this.props.sendingMessageAction(message)
     wss.ws.send(JSON.stringify({
       type: 'send_chat_message',
       origin: this.props.user.userId,
       target: this.props.chat.chatnow,
       content: message
     }))
+    this.refs.textarea.innerText = '' // 清空消息
+    this.props.setWaitMessageAction('')
   }
 
   // textareaFocus(e) {
@@ -182,8 +203,17 @@ class ChatWindow extends React.Component {
   // }
 
   textareaInput(e) {
-    this.props.setWaitMessageAction(e.target.innerHTML)
+    this.props.setWaitMessageAction(e.target.innerHTML.trim().replace(/<div><br><\/div>/g, ''))
   }
+
+  textareaPress(e) {
+    var html = e.target.innerHTML
+    if (e.key === 'Enter') {
+      e.target.innerHTML = html.replace(/<div><br><\/div>$/g, '')
+      this.sendMessage()
+    }
+  }
+
   render() {
     let chat = this.props.chat
     let chatnow = undefined
@@ -201,36 +231,54 @@ class ChatWindow extends React.Component {
           <div className="chatw-h-targetname">{chatnow && chatnow.nickname}</div>
         </div>
         <div className="chatw-show-scroll-wrap">
-        <div ref="chatMessageBox" className="chatw-show-wrap">
-        {
-          chatnow && chatnow.content.map((item, index) => (
-            <div className="chat-chatnow-wrap" key={index}>
-              {
-                item.sender === chatnow.userId ? (
-                  <div className="chat-target-wrap">
-                    <div className="chat-target" key="1">
-                      <div className="chat-ta-avatar" style={{
-                        background: `url(${HOST}/image/member/avatar/${chatnow.avatar}) center center / 30px 30px no-repeat`
-                      }}></div>
-                      <div className="chat-ta-nickname">{chatnow.nickname}</div>
+          <div ref="chatMessageBox" className="chatw-show-wrap">
+          {
+            [chatnow && chatnow.content.map((item, index) => (
+              <div className="chat-chatnow-wrap" key={index}>
+                {
+                  item.sender === chatnow.userId ? (
+                    <div className="chat-target-wrap">
+                      <div className="chat-target" key="1">
+                        <div className="chat-ta-avatar" style={{
+                          background: `url(${HOST}/image/member/avatar/${chatnow.avatar}) center center / 30px 30px no-repeat`
+                        }}></div>
+                        <div className="chat-ta-nickname">{chatnow.nickname}</div>
+                      </div>
+                      <div className="chat-msg-target" dangerouslySetInnerHTML={{__html: transMessage(item.msg)}} key="2"></div>
                     </div>
-                    <div className="chat-msg-target" dangerouslySetInnerHTML={{__html: transMessage(item.msg)}} key="2"></div>
-                  </div>
-                ) : (
+                  ) : (
+                    <div className="chat-me-wrap">
+                      <div className="chat-me" key="1">
+                        <div className="chat-me-avatar" style={{
+                          background: `url(${HOST}/image/member/avatar/${this.props.user.avatar}) center center / 30px 30px no-repeat`
+                        }}></div>
+                        <div className="chat-me-nickname">{this.props.user.nickname}</div>
+                      </div>
+                      <div className="chat-msg-me" dangerouslySetInnerHTML={{__html: transMessage(item.msg)}} key="2"></div>
+                    </div>
+                  )
+                }
+              </div>
+            )),
+              chatnow && chat.sendingMessages.map((item, index) => {
+                return item.target !== chatnow.userId ? null : (
+                <div className="chat-chatnow-wrap" key={index}>
                   <div className="chat-me-wrap">
                     <div className="chat-me" key="1">
                       <div className="chat-me-avatar" style={{
-                        background: `url(${HOST}/image/member/avatar/${chatnow.avatar}) center center / 30px 30px no-repeat`
+                        background: `url(${HOST}/image/member/avatar/${this.props.user.avatar}) center center / 30px 30px no-repeat`
                       }}></div>
                       <div className="chat-me-nickname">{this.props.user.nickname}</div>
                     </div>
-                    <div className="chat-msg-me" dangerouslySetInnerHTML={{__html: transMessage(item.msg)}} key="2"></div>
+                    <div className="wait-msg-box">
+                      <div className="chat-msg-me" dangerouslySetInnerHTML={{__html: transMessage(item.message)}} key="2"></div>
+                      <div className="wait-logo"></div>
+                    </div>
                   </div>
-                )
-              }
-            </div>
-          ))
-        }</div>
+                </div>
+              )})]
+          }
+          </div>
         </div>
         <div className="chatw-send-wrap">
           <div className="chatw-s-textarea">
@@ -240,12 +288,24 @@ class ChatWindow extends React.Component {
               // onBlur={this.textareaBlur.bind(this)}
               onInput={this.textareaInput.bind(this)}
               contentEditable={!!chatnow}
-              suppressContentEditableWarning="true"></div>
+              suppressContentEditableWarning="true"
+              onKeyPress={this.textareaPress.bind(this)}
+              dangerouslySetInnerHTML={{__html: this.state.message}}
+            ></div>
           </div>
           <div className="chatw-s-sendbox">
+            {
+              this.state.message && <div className="char-err">{this.state.message}</div>
+            }
             <div onClick={this.sendMessage.bind(this)} className="chatw-s-sendbtn">发送</div>
+
           </div>
         </div>
+        {
+          this.state.showChatImage && <div onClick={this.closeChatImage.bind(this)} className="chat-img-wrap">
+            <img src={`${HOST}/image/member/chat/${this.state.chatImage}`}/>
+          </div>
+        }
       </div>
     )
   }
@@ -263,4 +323,4 @@ ChatWindow.propTypes = {
   setWaitMessageAction: PropTypes.func.isRequired,
   swingChatWindowAction: PropTypes.func.isRequired
 }
-export default connect(mapStateToProps, { swingChatWindowAction, setWaitMessageAction })(ChatWindow)
+export default connect(mapStateToProps, { swingChatWindowAction, setWaitMessageAction, sendingMessageAction })(ChatWindow)

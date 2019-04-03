@@ -1,0 +1,19 @@
+
+@keyframes waitVerify {
+  0% {
+    transform: translate3d(-10px, -20px, 0) rotate(-20deg);
+  }
+  100% {
+    transform: translate3d(66px, 88px, 0px) rotate(45deg);
+  }
+}
+
+.wait-verify {
+  width: 300px;
+  margin: 0 auto;
+  h2 {
+    animation: waitVerify 3s linear infinite alternate-reverse;
+    margin-top: 100px;
+    color: #666;
+  }
+}

@@ -3,9 +3,12 @@
  */
 import React,{Component} from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 import cnames from 'classnames'
+import LazyLoad from 'react-lazyload'
 import config from '../../../utils/config'
 
+const HOST = config.HOST
 
 class slide extends Component {
 	constructor(props) {
@@ -14,13 +17,14 @@ class slide extends Component {
 			slideboxs: null,
 			// 轮播图图片
 			slideImg: [
-				{bgimg: '/image/slide_wall/TB1FmwTvHZnBKNjSZFGSuvt3FXa.jpg', bgcolor: '#fff'},
-				{bgimg: '/image/slide_wall/红米Note7.webp', bgcolor: '#00f'},
-				{bgimg: '/image/slide_wall/O1CN01Tms3Pn1D7tpGbFK5a_!!170-0-luban.jpg_q100.jpg_.webp', bgcolor: '#00f'},
-				{bgimg: '/image/slide_wall/TB1wbKtvIfpK1RjSZFOSuu6nFXa.jpg', bgcolor: '#06f'},
-				{bgimg: '/image/slide_wall/TB1wbKtvIfpK1RjSZFOSuu6nFXa.jpg', bgcolor: '#06f'},
-				{bgimg: '/image/slide_wall/TB10lfQxpzqK1RjSZSgSuwpAVXa.jpg', bgcolor: '#dff'}
+        {goodId: 43, bgimg: '/image/slide_wall/TB1fxrzI3HqK1RjSZFkSut.WFXa.jpg', bgcolor: '#E8E8E8'},
+				{goodId: 45, bgimg: '/image/slide_wall/TB1FmwTvHZnBKNjSZFGSuvt3FXa.jpg', bgcolor: '#E8E8E8'},
+				{goodId: 48, bgimg: '/image/slide_wall/O1CN01Tms3Pn1D7tpGbFK5a_!!170-0-luban.jpg_q100.jpg_.webp', bgcolor: '#CA1124', load: false},
+				{goodId: 49, bgimg: '/image/slide_wall/TB1wbKtvIfpK1RjSZFOSuu6nFXa.jpg', bgcolor: '#584BFB'},
+				{goodId: 42, bgimg: '/image/slide_wall/TB13jplKCzqK1RjSZFHwu23CpXa.png', bgcolor: '#E8E8E8'},
+				{goodId: 50, bgimg: '/image/slide_wall/TB10lfQxpzqK1RjSZSgSuwpAVXa.jpg', bgcolor: '#E9EAEC'}
 			],
+      load: {0: true, 1: false, 2: false, 3: false, 4: false, length: 5},
 			slideStop: false,  // 是否停止轮播图
 			slideIndex: 0,  // 轮播图索引
 			slideInterval: -1,  // 主定时器
@@ -59,24 +63,35 @@ class slide extends Component {
 	slideAnimate(next) {
 		var before = this.state.slideIndex;
 		if (next === undefined) {next = ((before + 1) % this.state.slideboxs.length)};
+    if (!this.state.load[next]) { // 延时加载轮播图片
+      this.state.slideboxs[next].getElementsByClassName('slide-img-box-i')[0].setAttribute('src', HOST + this.state.slideImg[next].bgimg)
+    }
 		var _this = this;
 		var slideboxs = this.state.slideboxs;
 		var beforeOpa = 1,nextOpa = 0;
 		// 开始动画
 		var interval = window.setInterval(function() {
 			beforeOpa -= 0.2; nextOpa += 0.2;
-			slideboxs[before].style.opacity = beforeOpa;
-			slideboxs[next].style.opacity = nextOpa;
+      // 组件卸载后定时器未及时清除
+      if (slideboxs[before] && slideboxs[next]) {
+        slideboxs[before].style.opacity = beforeOpa;
+        slideboxs[next].style.opacity = nextOpa;
+      }
 		}, 50);
 		// 停止动画，完成转换
 		var slideTimeout = window.setTimeout(function() {
 			window.clearInterval(interval);
-			slideboxs[before].style.opacity = 0;
-			slideboxs[next].style.opacity = 1;
+      if (slideboxs[before] && slideboxs[next]) {
+        slideboxs[before].style.opacity = 0;
+        slideboxs[next].style.opacity = 1;
+        slideboxs[before].style.zIndex = -1;
+        slideboxs[next].style.zIndex = 5;
+      }
 			// 更新显示索引
       _this.setState({
         slideIndex: next,
-        slideTimeout: slideTimeout
+        slideTimeout: slideTimeout,
+        load: {..._this.state.load, [next]: true}
       });
 		}, 200);
 	}
@@ -125,13 +140,13 @@ class slide extends Component {
 		<div className="nav-slide-wrap" onMouseLeave={this.slideStart}>
 		{/*轮播图图片*/}
 		{
-			slideImg.map((item,index) => (
-				<div key={index} className="slide-img-box" style={{backgroundColor: item.bgcolor}}>
-					<div
-					className="slide-img-box-i"
-					style={{background: `url(${config.HOST}${item.bgimg}) no-repeat center`}}
-					onMouseOver={this.slideStop}
-					></div>
+			slideImg.map((item,i) => (
+				<div key={i} className="slide-img-box" style={{backgroundColor: item.bgcolor}}>
+          <Link to={`/product_detail?goodId=${item.goodId}`}>
+              <img className="slide-img-box-i" src={i === 0 ? `${HOST}${item.bgimg}` : null}
+              onMouseOver={this.slideStop}
+              ></img>
+          </Link>
 				</div>
 			))
 		}
@@ -156,4 +171,4 @@ class slide extends Component {
 	}
 }
 
-export default slide;
+export default slide

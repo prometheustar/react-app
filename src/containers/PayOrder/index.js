@@ -6,6 +6,7 @@ import config from '../../utils/config'
 
 import { setRouterLocationAction } from '../../flux/actions/authActions'
 import PayHeader from './subpage/PayHeader'
+import Success from './subpage/Success'
 
 const HOST = config.HOST
 
@@ -21,6 +22,7 @@ class PayOrder extends React.Component {
   }
 
   componentWillMount() {
+    if (typeof(window) !== 'object') return;
     /**
      * 判断上一级页面是否 /order，跳到主页
      */
@@ -60,18 +62,17 @@ class PayOrder extends React.Component {
     }
   }
   render() {
-    console.log('payprops',this.props)
-    console.log('paystate', this.state)
+    if (this.props.order.payStatus === 'success') {
+      return (<div>
+        <PayHeader />
+        <Success />
+      </div>)
+    }
     const payOrder = this.props.order.payOrder
     const buyProducts = this.props.order.buyProducts
     return (
       <div>
         <PayHeader />
-        {
-          this.props.order.payStatus !== 'success' ? null : (
-            <h1>付款成功</h1>
-          )
-        }
         {
           [isEmpty(buyProducts) ? null : (
             buyProducts.map((item, index) => (
@@ -105,7 +106,7 @@ class PayOrder extends React.Component {
           isEmpty(payOrder) ? null : this.state.payway === 'alipay' ? (
             <div>
               {/*支付宝二维码*/}
-              <iframe height="835px" width="100%" src={payOrder.alipayURL} frameBorder="0"></iframe>
+              <iframe title="alipay" height="835px" width="100%" src={payOrder.alipayURL} frameBorder="0"></iframe>
             </div>
           ) : (
             <div>
