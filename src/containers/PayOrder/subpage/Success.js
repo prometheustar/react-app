@@ -6,33 +6,57 @@ import config from '../../../utils/config'
 
 const HOST = config.HOST
 
-const Success = (props) => {
-  console.log(props)
-  return <div>
-    <div style={{textAlign: 'center', marginTop: '30px'}}><span className="main_font1">付款成功</span></div>
-    <div className="regi-success">
-      <div className="rs-tit-logo"><img src={`${HOST}/image/ui/success.png`} alt=""/></div>
-      <div className="rs-in-wrap">
-        <div className="rs-tit">
-          <div className="rs-tit-info">付款成功，您的包裹已整装待发。。。</div>
-        </div>
-        <div className="rs-operator">
-          <div className="rs-to-home"><Link onClick={props.payOrderEnd} to="/member/myorder">查看我的订单</Link></div>
-          <div className="rs-to-log"><Link onClick={props.payOrderEnd} to="/">继续逛逛</Link></div>
-        </div>
-      </div>
+var payEnd = false
 
+class Success extends React.Component {
+
+  componentWillUnmount() {
+    if (!payEnd) {
+      this.props.payOrderEnd()
+    }
+  }
+
+  render() {
+    return <div className="pay-success-wrap">
+      {/*<div style={{textAlign: 'center', marginTop: '30px'}}><span className="main_font1">付款成功</span></div>*/}
+      <div className="pays-body">
+        <div className="f_wrap pays-logo">
+          <div className="f_l pays-logo-l"><img src={`${HOST}/image/ui/success2.png`} /></div>
+          <div className="f_l pays-logo-r">您已成功付款</div>
+        </div>
+        <div className="pays-opera">
+          <div className="pays-circle pays-info">您的包裹已整装待发。。。</div>
+          <div className="pays-circle pays-price">
+            <span className="pays-f1">实付款：</span>
+            <span className="pays-f2">￥{this.props.sumPrice}</span>
+          </div>
+          <div className="pays-end">
+            <span className="pays-f1">您可以</span>
+            <span className=""><Link className="pays-f3" onClick={this.props.payOrderEnd} to="/member/myorder">查看已买到的宝贝</Link></span>
+            <span className=""><Link className="pays-f3" onClick={this.props.payOrderEnd} to="/">继续逛逛</Link></span>
+          </div>
+        </div>
+
+      </div>
     </div>
-  </div>
+  }
 }
+
 
 function mapActionToProps(dispatch) {
   return {
     payOrderEnd: function() {
+      payEnd = true
       dispatch({
         type: 'PAY_ORDER_SUCCESS'
       })
     }
   }
 }
-export default connect(null, mapActionToProps)(Success)
+
+function mapStateToProps(state) {
+  return {
+    sumPrice: state.order.payOrder.sumPrice
+  }
+}
+export default connect(mapStateToProps, mapActionToProps)(Success)

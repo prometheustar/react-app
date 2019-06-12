@@ -1,5 +1,5 @@
 .search-product {
-  width: 1050px;
+  width: 1200px;
   margin: 0 auto;
 }
 .search-hr {
@@ -188,4 +188,36 @@
     height: 30px;
     overflow: hidden;
   }
+}
+
+.se-notfound {
+  text-align: center;
+  position: relative;
+  // padding: 0 0 20px 0;
+  margin-bottom: 20px;
+  height: 30px;
+  line-height: 30px;
+  font-size: 12px;
+  color: #666;
+  &::before,&::after {
+    content: "";
+    height: 1px;
+    display: block;
+    width: 35%;
+    background: #999;
+  }
+  &::before {
+    position: absolute;
+    top: 15px;
+    left: 0;
+  }
+  &::after {
+    position: absolute;
+    right: 0;
+    top: 15px;
+  }
+}
+.se-not-f1 {
+  color: #f40;
+  padding: 0 10px;
 }

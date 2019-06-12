@@ -25,11 +25,18 @@ class ShopingCart extends React.Component {
       choiceStores: [],
       choiceProducts: [],
     }
+    this.windowResize = this.windowResize.bind(this)
   }
 
   // componentWillMount() {
 
   // }
+
+  windowResize() {
+    this.setState({
+      height: document.documentElement.clientHeight
+    })
+  }
 
   componentDidMount() {
     if (typeof(window) === 'object') {
@@ -37,20 +44,21 @@ class ShopingCart extends React.Component {
       this.setState({
         height: document.documentElement.clientHeight
       })
-      window.onresize = function() {
-        _this.setState({
-          height: document.documentElement.clientHeight
-        })
-      }
+      window.addEventListener("resize", this.windowResize)
+      // window.onresize = function() {
+
+      // }
     }
   }
 
   componentWillUnmount() {
     if (typeof(window) === 'object') {
-      window.onresize = null
+      window.removeEventListener("resize", this.windowResize)
+      // window.onresize = null
     }
   }
 
+  // 购物车切换动画
   showCarBody() {
     var interval = -1
     return function() {
@@ -250,12 +258,12 @@ class ShopingCart extends React.Component {
 
   render() {
     const auth = this.props.auth
-    // 未登陆
-    if (!this.props.auth.isLogin || !Array.isArray(auth.shopCar)) {
-      return (
-        <div></div>
-      )
-    }
+    // 未登陆，在 App.js 中判断
+    // if (!this.props.auth.isLogin || !Array.isArray(auth.shopCar)) {
+    //   return (
+    //     <div></div>
+    //   )
+    // }
 
     let computeChoice = this.computeChoiceCount.call(this)
     return (

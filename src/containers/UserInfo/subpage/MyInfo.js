@@ -68,7 +68,7 @@ class MyInfo extends React.Component {
   }
 
   componentDidMount() {
-    document.title = '优选 - 个人资料'
+    document.title = '我的优选-个人资料'
   }
 
   genderRadioChange(e) {
@@ -224,7 +224,7 @@ class MyInfo extends React.Component {
       .catch(err => {
         sending = false
         this.setState({
-          errors: {...this.state.errors, submit: err}
+          errors: {submit: err.message}
         })
       })
   }
@@ -329,10 +329,13 @@ class MyInfo extends React.Component {
             <div className="mi-item-body">{formatDate(this.state.user.lastLogin, true)}</div>
           </div>
           {
-            !this.diff() ? null : <button type="submit" className="mi-submit">保存</button>
-          }
-          {
-            this.state.errors.submit && <div className="mi-err">{this.state.errors.submit}</div>
+            !this.diff() ? null: <div>
+              <button type="submit" className="mi-submit">保存</button>
+              {
+                this.state.errors.submit ? <div className="mi-err">{this.state.errors.submit}</div> : null
+              }
+            </div>
+
           }
         </form>
       </div>

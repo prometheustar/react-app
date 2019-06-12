@@ -1,12 +1,12 @@
 import React from 'react'
 import axios from 'axios'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import config from '../../../utils/config.js'
-import {setAuthToken, setCurrentUser} from '../../../utils/setAuth'
-import {isPhone, isEmpty} from '../../../utils/validator'
+import { setAuthToken, setCurrentUser } from '../../../utils/setAuth'
+import { isPhone } from '../../../utils/validator'
 
 /**
  * 发送手机号到 sms接口，
@@ -28,6 +28,10 @@ class PhoneLogin extends React.Component {
 		}
 		this.inputChange = this.inputChange.bind(this);
 	}
+
+  componentDidMount() {
+    window.document.title = '优选--手机登录'
+  }
 
 	inputChange(e) {
 		this.setState({

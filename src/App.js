@@ -25,6 +25,9 @@ import Footer from './components/Footer'
 
 import { setAuthToken, setCurrentUser } from './utils/setAuth'
 if (typeof(window) === 'object') {
+  // 彩蛋
+  console.log('%c优选提示！','color:red;font-size:30px;')
+  console.log('%c此浏览器功能专供开发者使用。请不要在此粘贴执行任何内容，这可能会导致您的账户受到攻击，给您带来损失 ！','font-size:20px;color:#777777;font-weight:400;')
   // 验证本地 token
   const jwtToken = window.localStorage.jwtToken;
   if (!jwtToken) {
@@ -67,7 +70,10 @@ const App = (props) => {
         <PrivateRoute path="/member" component={UserInfo} />
         <PrivateRoute path="/payorder" component={PayOrder} />
       </Switch>
-      <ShopingCart />
+      {
+        // 购物车
+        props.isLogin ? <ShopingCart /> : null
+      }
       {
         // 聊天框
         props.hideChat ? null : <Chat />
@@ -89,6 +95,7 @@ const App = (props) => {
 
 function mapStateToProps(state) {
   return {
+    isLogin: state.auth.isLogin,
     hideChat: state.chat.hideChat,
     showAlert: state.messageBox.showAlert,
     showConfirm: state.messageBox.showConfirm

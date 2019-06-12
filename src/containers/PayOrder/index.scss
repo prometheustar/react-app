@@ -1,0 +1,264 @@
+.pay-header {
+  height: 60px;
+  line-height: 60px;
+  background-color: #fff;
+  box-shadow: 0 0 8px #aaa;
+  color: #444;
+}
+
+.pay-head-box {
+  width: 1000px;
+  height: 100%;
+  margin: 0 auto;
+
+  &::after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+}
+.pay-head-tit {
+  float: left;
+  font-size: 20px;
+  font-weight: bold;
+  height: 60px;
+  overflow: hidden;
+}
+.pay-logo {
+  margin-top: 5px;
+  font-size: 0;
+  position: relative;
+  border-right: 1px solid #666;
+  margin-right: 15px;
+  padding-right: 15px;
+  height: 48px;
+  img {
+    height: 50px;
+  }
+}
+
+.pay-user {
+  float: right;
+  font-size: 14px;
+}
+
+.pay-body {
+  background-color: #f1f1f1;
+}
+.pay-wrap {
+  width: 1000px;
+  margin: 0 auto;
+  background-color: #fff;
+  margin-top: 20px;
+  padding-top: 20px;
+}
+.pay-sumPrice {
+  font-size: 28px;
+  color: #f70;
+  text-align: right;
+  font-weight: bold;
+  margin-right: 30px;
+  &::after {
+    content: "元";
+    display: inline;
+    color: #333;
+    font-size: 12px;
+    padding-left: 5px;
+  }
+}
+
+.pay-choice {
+  height: 41px;
+  width: 290px;
+  padding: 10px 20px;
+  border: 3px solid transparent;
+  margin-bottom: 20px;
+  margin-left: 20px;
+  cursor: pointer;
+  user-select: none;
+}
+.pay-selected {
+  border-color: #92a8e6;
+}
+.pay-recommend {
+  color: #f60;
+  line-height: 41px;
+  margin-left: 20px;
+  font-size: 12px;
+}
+.pay-checkbox {
+  margin-top: 16px;
+  margin-right: 20px;
+}
+.pay-choi-info {
+  height: 41px;
+  line-height: 41px;
+  vertical-align: middle;
+}
+.pay-choi-logo {
+  height: 38px;
+  vertical-align: middle;
+}
+.pay-choi-f {
+  display: inline-block;
+  height: 100%;
+  margin-left: 20px;
+  font-size: 14px;
+  font-weight: bold;
+
+}
+
+.pay-wallet-wrap {
+  padding: 0 0 20px 20px;
+
+}
+
+.pay-hint {
+  color: #bbb;
+  line-height: 20px;
+  margin-bottom: 10px;
+}
+.pay-proper {
+  font-size: 14px;
+  line-height: 40px;
+
+  .pay-p-f1 {
+    color: #333;
+  }
+  .pay-p-f2 {
+    color: #f40;
+  }
+}
+
+.pay-form {
+  width: 200px;
+  border: 1px solid #ccc;
+}
+.pay-sms {
+  height: 30px;
+  input {
+    box-sizing: border-box;
+    font-size: 14px;
+    width: 110px;
+    padding: 0 10px;
+    margin: 0;
+    border: 0;
+    line-height: 30px;
+    outline: none;
+    letter-spacing: 7px;
+  }
+
+}
+.pay-smsbtn {
+  font-size: 12px;
+  display: block;
+  border: 0;
+  padding: 0;
+  background: #6c7275;
+  width: 80px;
+  height: 30px;
+  color: #fff;
+
+
+}
+
+.pay-submit,.pay-suffice {
+  color: #fff;
+  background: #7393ec;
+  width: 110px;
+  height: 32px;
+  text-align: center;
+  line-height: 32px;
+  font-weight: bold;
+  border-radius: 2px;
+  font-size: 14px;
+  cursor: pointer;
+  &:hover {
+    background-color: #829ff1;
+  }
+}
+.pay-suffice {
+  background: #ccc;
+  &:hover {
+    background-color: #ccc;
+  }
+
+}
+.pay-error {
+  color: #f40;
+  &::before {
+    content: "!>_<";
+    display: inline;
+  }
+}
+
+.pay-success-wrap {
+  width: 800px;
+  background-color: #fff;
+  margin: 40px auto 0 auto;
+  border: 1px solid #ccc;
+}
+.pays-body {
+
+}
+.pays-logo {
+  background-color: #cffbcf;
+  padding: 10px 20px;
+  height: 40px;
+
+  .pays-logo-l {
+    img {
+      width: 40px;
+      height: 40px;
+    }
+  }
+  .pays-logo-r {
+    line-height: 40px;
+    margin-left: 20px;
+    font-weight: bold;
+    font-size: 15px;
+  }
+}
+.pays-opera {
+  padding: 20px 40px;
+}
+.pays-circle {
+  position: relative;
+  height: 40px;
+  line-height: 30px;
+
+  &::before {
+    content: "";
+    display: block;
+    width: 5px;
+    height: 5px;
+    background: #5cafaf;
+    border-radius: 50%;
+    position: absolute;
+    top: 13px;
+    left: -12px;
+  }
+}
+.pays-info {
+  font-size: 16px;
+  color: #666;
+}
+.pays-f1 {
+  font-size: 14px;
+  color: #333;
+}
+.pays-f2 {
+  color: #f40;
+  font-weight: bold;
+  font-size: 16px;
+}
+.pays-end {
+  border-top: 1px solid #ccc;
+  height: 40px;
+  line-height: 40px;
+}
+.pays-f3 {
+  color: #5268d2;
+  margin-left: 20px;
+  font-size: 14px;
+}

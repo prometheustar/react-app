@@ -53,7 +53,6 @@ export const contactItemToChatAction = item => {
   item = {...item, userId: item.userId || item.contactId}
   var chat = store.getState().chat
   if (chat.chatnow === item.userId && !chat.hideChat) return;
-
   store.dispatch({
     type: 'CONTACT_ITEM_TO_CHAT',
     payload: item

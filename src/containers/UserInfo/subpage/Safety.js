@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import axios from 'axios'
+import SparkMD5 from 'spark-md5'
 
 import config from '../../../utils/config'
 import { isEmail, isPhone } from '../../../utils/validator'
@@ -26,6 +27,10 @@ class Safety extends React.Component {
       showProperty: false,
       errors: {}
     }
+  }
+
+  componentDidMount() {
+    window.document.title = '我的优选-安全设置'
   }
 
   // 切换修改手机和修改邮箱
@@ -173,7 +178,7 @@ class Safety extends React.Component {
       })
     }
     axios.post(`${HOST}/api/users/modify_safety`, {
-      password: this.state.password,
+      password: SparkMD5.hash(this.state.password),
       newPassword: this.state.newPassword,
       smsCode: this.state.smsCode3
     }).then(res => {

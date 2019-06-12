@@ -82,6 +82,10 @@ class Home extends Component {
 			});
 	}
 
+  componentDidMount() {
+    window.document.title = '优选--ChoicePerfect'
+  }
+
 	// 设置或获取 state的bigType 的 smaillType
 	CurrentSmaillType(bigid, smaillType, getSmaill = false) {
 		var bigType = this.state.bigType
@@ -196,8 +200,8 @@ class Home extends Component {
 									<div
 										key={item._id}
 										className={cnames(`nav-l-item`, {
-											'nav-l-item-sel': this.state.selectedBigid===item._id,
-                      [`color${index}`]: this.state.selectedBigid===item._id,
+											'nav-l-item-sel': this.state.selectedBigid === item._id,
+                      [`color${index}`]: this.state.selectedBigid === item._id,
 										})}
 										bigid={item._id}
                     index={index}

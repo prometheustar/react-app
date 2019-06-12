@@ -18,9 +18,6 @@ import config from './config'
 
 const WS_HOST = config.WS_HOST
 
-const state = {
-  initShopCar: true,
-}
 
 const socket = {
   status: 'close',
@@ -30,7 +27,6 @@ const socket = {
     const ws = new WebSocket(`${WS_HOST}?token=${token}`)
 
     ws.onopen = function(e) {
-      console.log('socket open')
       socket.status = 'open'
       setInterval(function() {  // 设置定时器更新 token
         if (socket.status !== 'open') { return }
@@ -79,7 +75,7 @@ const socket = {
 
         case 'get_address':
           return setAddressAction(msg.content)
-        case 'get_orders':
+        case 'get_orders':  // 获取所有订单信息
           return getMyOrdersAction(msg.content)
         default:
           return

@@ -5,6 +5,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 import config from '../../utils/config'
 
 import { transPrice } from '../../utils/tools'
@@ -19,8 +20,17 @@ function splitName(name) {
 const HOST = config.HOST
 
 const SearchProductsList = (props) => {
+
+  var toChat = (userId, avatar, nickname) => {
+    return userId === props.userId ? null : <div
+      connectid={userId}
+      avatar={avatar}
+      nickname={nickname}
+      className="good-number-chat">聊</div>
+  }
+
   return (
-    <div className="goodlist-wrap">
+    <div  className="goodlist-wrap">
       {
         props.products.map((product, index) => {
           return (
@@ -39,9 +49,9 @@ const SearchProductsList = (props) => {
                 <div className="good-number">
                   <span className="n_f1">成交量：</span><span className="n_f2">{product.number}笔</span>
                 </div>
-                <div className="good-number-chat">
-                  聊
-                </div>
+                {
+                  toChat(product.mid, product.avatar, product.nickname)
+                }
               </div>
             </div>
           )
@@ -55,4 +65,10 @@ SearchProductsList.propTypes = {
   products: PropTypes.array.isRequired
 }
 
-export default SearchProductsList
+function mapStateToProps(state) {
+  return {
+    userId: state.auth.user.userId
+  }
+}
+
+export default connect(mapStateToProps)(SearchProductsList)

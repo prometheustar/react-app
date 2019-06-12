@@ -27,6 +27,9 @@ export const payOrderSuccessAction = orderno => {
   })
 }
 
+/**
+ * myOrders Actions
+ */
 export const getMyOrdersAction = myOrders => {
   store.dispatch({
     type: 'GET_MY_ORDERS',

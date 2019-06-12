@@ -26,7 +26,7 @@ const authReducer = (state = initialState, action) => {
     case 'SET_SHOP_CAR':
       return {
         ...state,
-        shopCar:action.payload
+        shopCar: action.payload
       }
     case 'SET_ADDRESS':
       return {

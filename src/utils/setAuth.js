@@ -2,7 +2,7 @@ import axios from 'axios'
 import store from '../flux/store'
 import socket from './socket'
 import { isEmpty } from '../utils/validator'
-
+import { myOrdersInitState } from '../flux/reducers/myOrders'
 export const setAuthToken = token => {
 	if (token) {
 		// 让每个请求头携带 token
@@ -28,6 +28,10 @@ export const setCurrentUser = user => {
       socket.ws.close()
     }
     store.dispatch({ type: 'LOGIN_OUT_CHAT' })
+    store.dispatch({
+      type: 'GET_MY_ORDERS',
+      payload: myOrdersInitState
+    })
   }
 	store.dispatch({
 		type: 'SET_CURRENT_USER',

@@ -19,14 +19,37 @@
   float: left;
   vertical-align: middle;
   text-align: center;
+  position: relative;
 }
 .spec-smail-bigone-wrap {
   height: 430px;
   border: 1px solid #ccc;
   overflow: hidden;
+  position: relative;
+  cursor: move;
 }
+.sepc-bigglass {
+  position: absolute;
+  height: 430px;
+  width: 420px;
+  z-index: 100;
+  top: 0;
+  left: 430px;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+.spec-bigimage {
+  position: absolute;
+  left: 0;
+  top: 0;
+  max-width: 840px;
+  max-height: 860px;
+}
+
 .spec-smail-bigone {
-  cursor: pointer;
+  // cursor: pointer;
 }
 .spec-smaill-item-wrap {
   padding: 20px 0 10px 0;
@@ -335,16 +358,16 @@
     padding: 10px 20px;
     position: relative;
     cursor: pointer;
-    &::after {
-      content: "";
-      display: block;
-      width: 1px;
-      height: 14px;
-      position: absolute;
-      right: 0;
-      top: 13px;
-      background-color: #ccc;
-    }
+    // &::after {
+      // content: "";
+      // display: block;
+      // width: 1px;
+      // height: 14px;
+      // position: absolute;
+      // right: 0;
+      // top: 13px;
+      // background-color: #ccc;
+    // }
   }
   .product-info-selected {
     border: 1px solid #ccc;
@@ -358,7 +381,78 @@
 .info-picture-item {
   text-align: center;
   font-size: 0;
+  background-color: #eee;
   img {
     max-width: 790px;
+  }
+}
+.spec-comment-count {
+  color: #35a;
+  margin: 0 0 0 5px;
+  font-weight: 700;
+}
+// 评论
+.comm-item {
+  padding: 10px 0 ;
+  border-bottom: 1px solid #ccc;
+  font-size: 12px;
+}
+.comm-i-nickname {
+  color: #666;
+  line-height: 60px;
+}
+.comm-i-content {
+  line-height: 30px;
+}
+.comm-i-creaTime {
+  color: #666;
+  line-height: 20px;
+}
+.comm-i-pics {
+  height: 50px;
+  line-height: 50px;
+}
+.comm-i-pic-i {
+  width: 40px;
+  height: 40px;
+  padding: 3px;
+  overflow: hidden;
+  border: 1px solid #ccc;
+  vertical-align: middle;
+  margin-right: 5px;
+  cursor: pointer;
+}
+.comm-spec-wrap {
+  width: 200px;
+  margin-top: 20px;
+}
+.comm-spec {
+  margin-right: 20px;
+}
+.comm-spec-name {
+  color: #666;
+}
+.comm-spec-val {
+  color: #999;
+}
+.comm-bigimg {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  height: 400px;
+  // min-height: 200px;
+  width: 600px;
+  // min-width: 300px;
+  margin-left: -200px;
+  margin-top: -300px;
+  overflow: hidden;
+  cursor: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAB3ElEQVQ4T6WTMWiTURDH/3ckHzGClIAIQSXDJyHfewaKIF2Ko4O4SBGHDiLiILq4uIqTKDgJOlQoVbt16KaDOIgoaBGSey8QMkSkg1NBCOiHvpMvpOFLm6roG4+73/3v/vcI//loWn0cx4ejKFpk5lII4buqrnY6nU/TcicAcRwfiKLoPjNfBKCqKkRkAVAIYTlN0xu9Xu9rHjQGVKvVcqVSeQfgaAjhZqFQeNpqtQbNZnN/COECgHsANkVkFsCPbcgYYIx5QETn0zSd7Xa7mzvlWmsPqepHVX3kvb89AUiSpMLMX0IIC9779b32aow5DWB9MBjM9Pv9b1neUEGSJAtE9Mw5tw9A+J0x1totVT3nnHuVB1xh5usicjwLWmt1J0REhs2MMdmelpxzS2OAMeYsET0RkZk/nUWmYDTqy7yC4Q4AnBCR1l6Qer1eLxaLG0R0pN1ub40BI2mZC3MiMpe3KQdja+0bAC9E5NYuG3N3MABwSUQ620mNRuMYMz8monkAV0Xk4S5AFqjVaqVyuXyHma+p6oaqvmXmk6qaHc9dAB+IaE1VLzvnViZGyM8dx/HBUqk0r6oxgM+q+t573xtZvkhEK6p6ynv/eupn+gsnzojIcwA//wmQb/AL1KnFEXCpOC0AAAAASUVORK5CYII="),pointer;
+  vertical-align: middle;
+  text-align: center;
+  line-height: 400px;
+  background-color: rgba(0,0,0,.5);
+  img {
+    max-height: 400px;
+    vertical-align: middle;
   }
 }

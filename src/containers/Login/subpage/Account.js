@@ -3,11 +3,12 @@ import axios from 'axios'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
+import SparkMD5 from 'spark-md5'
 
 import config from '../../../utils/config.js'
 import { alertMessageAction } from '../../../flux/actions/messageAction'
 import {setAuthToken, setCurrentUser} from '../../../utils/setAuth'
-import {isPhone, isEmpty, isLength} from '../../../utils/validator'
+import { isEmpty } from '../../../utils/validator'
 const HOST = config.HOST
 
 var loging = false // 判断账户是否在登录中
@@ -22,6 +23,10 @@ class Account extends React.Component {
     }
     this.inputChange = this.inputChange.bind(this);
     this.inputFocus = this.inputFocus.bind(this);
+  }
+
+  componentDidMount() {
+    window.document.title = '优选--账户登录'
   }
 
   inputChange(e) {
@@ -56,9 +61,8 @@ class Account extends React.Component {
     }
     loging = true
     var target = this.refs.submit
-    console.log(target)
     target.innerText = '登录中。。。'
-    let info = {account: this.state.account, password: this.state.password};
+    let info = {account: this.state.account, password: SparkMD5.hash(this.state.password), hash: 'md5'};
     axios.post(`${HOST}/api/users/login`, info)
       .then(res => {
         loging = false

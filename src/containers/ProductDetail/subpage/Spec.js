@@ -63,6 +63,51 @@ class Spec extends React.Component {
     })
   }
 
+  componentDidMount() {
+    var wrap = document.getElementsByClassName('spec-wrap')[0]
+    var magnifier = this.refs.magnifier
+    var bigImageBox = this.refs.bigImageBox
+    var bigImage = this.refs.bigImage
+    var magnifyGlass = this.refs.magnifyGlass
+    if (!wrap || !magnifier || !bigImageBox || !bigImage || !magnifyGlass) return;
+    var _this = this
+    // 绑定放大镜事件
+    magnifier.onmouseover = function(e) {
+       // 页面滚动条卷去的
+      var scrollX = document.documentElement.scrollLeft
+      var scrollY = document.documentElement.scrollTop
+       // magnifier 加了 position 获取不到，只能取这个
+      var startX = wrap.offsetLeft
+      var startY = wrap.offsetTop
+      // 鼠标悬浮后这时才加载大图片
+      bigImage.setAttribute('src', `${HOST}/image/goods/smaill/${_this.state.selectImg}`)
+      bigImageBox.style.display = 'block'
+      magnifyGlass.style.display = 'block'
+
+      magnifier.onmousemove = function(e) {
+        var x = e.clientX + scrollX, y = e.clientY + scrollY, cx = x - startX, cy = y - startY
+        bigImage.style.left = '-' + parseInt((x - startX) / 420 * 100) + '%'
+        bigImage.style.top = '-' + parseInt((y - startY) / 430 * 100) + '%'
+        magnifyGlass.style.left = cx < 100 ? '0px' : cx > 320 ? '220px' : cx - 100 + 'px'
+        magnifyGlass.style.top = cy < 100 ? '0px' : cy > 320 ? '230px' : cy - 100 + 'px'
+
+      }
+
+      magnifier.onmouseleave = function() {
+        bigImageBox.style.display = 'none'
+        magnifyGlass.style.display = 'none'
+        magnifier.onmousemove = null
+        magnifier.onmouseleave = null
+      }
+    }
+
+  }
+
+
+  componentWillUnmount() {
+    this.refs.magnifier.onmouseover = null
+  }
+
   componentWillReceiveProps (nextProps) {
     if (initShopCar) {
       initShopCar = false
@@ -229,7 +274,19 @@ class Spec extends React.Component {
       <div className="spec-wrap">
         {/*图片组*/}
         <div className="spec-smail-picture-wrap">
-          <div className="spec-smail-bigone-wrap"><img className="spec-smail-bigone" height="430px" src={`${HOST}/image/goods/smaill/${this.state.selectImg}_430x430q90.jpg`} alt=""/></div>
+          <div ref="magnifier" className="spec-smail-bigone-wrap">
+            <img className="spec-smail-bigone" height="430px" src={`${HOST}/image/goods/smaill/${this.state.selectImg}_430x430q90.jpg`}/>
+            <div ref="magnifyGlass" style={{
+              position: 'absolute',
+              top: '0',
+              left: '0',
+              zIndex: '100',
+              width: '200px',
+              height: '200px',
+              display: 'none',
+              background: `url(${HOST}/image/ui/magnify_glass.png)`
+            }}></div>
+          </div>
           <div className="spec-smaill-item-wrap">
             {
               this.props.smaillPicture.map((item, index) => (
@@ -243,6 +300,7 @@ class Spec extends React.Component {
               ))
             }
           </div>
+          <div ref="bigImageBox" style={{display: 'none'}} className="sepc-bigglass"><img ref="bigImage" className="spec-bigimage"/></div>
         </div>
         {/*spec属性信息*/}
         <div className="spec-goodinfo">

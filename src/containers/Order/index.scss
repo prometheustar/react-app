@@ -1,13 +1,63 @@
 .worder-wrap {
   width: 1000px;
   margin: 20px auto 0 auto;
-
+  .wo-logo-wrap {
+    &::after {
+      content: "";
+      display: block;
+      clear: both;
+    }
+  }
   .worder-logo {
+    float: left;
     width: 240px;
     height: 130px;
     background: url(http://118.126.108.36/image/ui/home_logo.png) center center / 240px 130px no-repeat;
   }
-
+  .order-stepbar {
+    float: right;
+    margin-right: -60px;
+    margin-top: 10px;
+  }
+  .wo-step-i {
+    float: left;
+    width: 182px;
+    text-align: center;
+  }
+  .step-t {
+    padding: 3px 0;
+    font-weight: 700;
+    color: #888;
+    font-weight: bold;
+    font-size: 14px;
+  }
+  .step-b {
+    height: 34px;
+    line-height: 34px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+  }
+  .wo-step-1 {
+    .step-b {
+      background: url(http://118.126.108.36/image/ui/order_step.png) 50% -204px no-repeat;
+    }
+  }
+  .wo-step-2 {
+    .step-b {
+      background: url(http://118.126.108.36/image/ui/order_step.png) 50% -102px no-repeat;
+    }
+  }
+  .wo-step-3 {
+    .step-b {
+      background: url(http://118.126.108.36/image/ui/order_step.png) 50% -102px no-repeat;
+    }
+  }
+  .wo-step-4 {
+    .step-b {
+      background: url(http://118.126.108.36/image/ui/order_step.png) 50% -136px no-repeat;
+    }
+  }
   .wo-tit {
     text-align: left;
 
@@ -30,40 +80,256 @@
 
   .wo-add-wrap {
     min-height: 100px;
-    margin-top: 20px;
+    // margin-top: 20px;
     &::after {
       content: "";
       display: block;
       clear: both;
     }
   }
-  .wo-add-item {
-    border: 2px solid #ccc;
+  .wo-add-item-wrap {
+    width: 237px;
+    height: 106px;
+    margin-top: 20px;
+    box-sizing: border-box;
+    padding: 5px 15px 5px 15px;
     float: left;
-    margin-left: 20px;
-    cursor: pointer;
-    padding: 5px 10px 10px 10px;
+    margin-right: 13px;
+    color: #333;
+    background: url(http://118.126.108.36/image/ui/address_unselect.png) center center / 237px 106px no-repeat;
+    &:hover {
+      background: url(http://118.126.108.36/image/ui/address_selected.png) center center / 237px 106px no-repeat;
+    }
   }
-
   .wo-add-item-choi {
-    border-color: #f40;
+    color: #222;
+    background: url(http://118.126.108.36/image/ui/address_selected.png) center center / 237px 106px no-repeat;
   }
-
+  .wo-add-item {
+    cursor: pointer;
+  }
+  .wo-add-i-sub {
+    color: #666;
+  }
+  .wo-add-i-body {
+    line-height: 18px;
+  }
   .wo-add-i-recename {
     border-bottom: 1px solid #999;
     line-height: 23px;
   }
   .wo-add-i-address {
+    text-align: left;
 
+    .wo-add-i-body {
+      color: #000;
+    }
   }
-  .wo-add-i-pcode {
+  // .wo-add-i-pcode {
 
-  }
-  .wo-add-i-phone {
+  // }
+  // .wo-add-i-phone {
 
-  }
+  // }
 
   .wo-add-address {
+    margin-top: 20px;
+    padding: 0 10px;
+    display: block;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    width: 80px;
+    border-radius: 2px;
+    cursor: pointer;
+    color: #333;
+    height: 25px;
+    line-height: 25px;
+    font-weight: 700;
+    text-align: center;
+  }
 
+  .wo-affirm {
+    text-align: left;
+    line-height: 30px;
+    margin: 30px 0;
+  }
+
+  .wo-order-wrap {
+    border-top: 2px solid #afdeff;
+    border-bottom: 2px solid #afdeff;
+    margin: 0 0 50px 0 ;
+    padding: 5px 0 0 0;
+  }
+  .wo-o-i {
+    float: left;
+    color: #666;
+    line-height: 25px;
+    width: 180px;
+    font-size: 12px;
+  }
+  .wo-o-storename {
+    margin-top: -30px;
+    color: #000;
+  }
+  .wo-o-logo {
+    width: 50px;
+    height: 50px;
+    margin-left: 10px;
+    img {
+      width: 50px;
+      height: 50px;
+    }
+  }
+  .wo-o-prod-name {
+    margin-left: 10px;
+    width: 180px;
+    overflow: hidden;
+  }
+  .wo-o-spec-wrap {
+
+  }
+  .wo-o-spec {
+    margin-left: 20px;
+  }
+  .wo-o-price {
+    margin-left: 20px;
+    width: 120px;
+  }
+  .wo-o-operat {
+    margin-left: 20px;
+    border: 1px solid #9DC1E4;
+    width: 84px;
+  }
+  .wo-o-num {
+    width: 32px;
+    height: 24px;
+    border: 0;
+    padding: 0 5px;
+    text-align: center;
+    outline: none;
+  }
+  .wo-o-minus,.wo-o-plus {
+    display: inline-block;
+    text-align: center;
+    width: 20px;
+    cursor: pointer;
+    line-height: 24px;
+    border-right: 1px solid #9DC1E4;
+  }
+  .wo-o-plus {
+    border-left: 1px solid #9DC1E4;
+    border-right: 0;
+  }
+  .wo-o-amount {
+    margin-left: 20px;
+    width: 120px;
+  }
+  .wo-o-subtotal {
+    width: 160px;
+    text-align: right;
+  }
+  .wo-o-total {
+    color: #ff0036;;
+    font-weight: bold;
+  }
+  .wo-o-comment {
+    clear: both;
+    padding: 8px 10px;
+    margin-top: 10px;
+    background-color: #f2f7ff;
+  }
+  .wo-o-com-inp {
+    font-size: 12px;
+    width: 200px;
+    padding: 2px 5px;
+    outline: none;
+    hieght: 14px;
+  }
+
+  .wo-o-submit-wrap {
+
+  }
+
+  .wo-o-float-r {
+    &::after {
+      content: "";
+      display: block;
+      clear: both;
+    }
+  }
+
+  .wo-o-sub-price-wrap {
+    float: right;
+    border: 1px solid red;
+    display: inline-block;
+    right: 0;
+    font-size: 13px;
+    text-align: right;
+  }
+  .wo-o-sub-shadow {
+    border: 3px solid #fff0e8;
+    padding: 10px;
+  }
+  .wo-o-sub-i {
+
+  }
+  .wo-o-sub-itit {
+    font-weight: bold;
+  }
+  .wo-o-sub-ib {
+    color: #666;
+    line-height: 24px;
+  }
+  .wo-o-sumprice{
+    line-height: 40px;
+    .wo-o-sub-ib {
+      color: red;
+      font-size: 26px;
+      font-weight: bold;
+    }
+  }
+  .wo-sub-btn-wrap {
+    right: 0;
+    top: 116px;
+    &::after {
+      content: "";
+      display: block;
+      clear: both;
+    }
+  }
+  .wo-o-submit{
+    float: right;
+    display: inline-block;
+    width: 162px;
+    height: 39px;
+    vertical-align: middle;
+    line-height: 39px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+    background: #ff0036;
+    color: #fff;
+    border: none;
+    outline: none;
+  }
+  .wo-o-err-wrap {
+    &::after {
+      content: "";
+      display: block;
+      clear: both;
+    }
+  }
+  .wo-o-err{
+    float: right;
+    color: red;
+    width: 200px;
+    margin-top: 10px;
+    text-align: right;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    background-color: #ffe1e8;
+    border-radius: 6px;
   }
 }

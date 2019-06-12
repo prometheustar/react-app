@@ -1,18 +1,26 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import config from '../../../utils/config'
+
+const HOST = config.HOST
 
 const PayHeader = (props) => {
   return (
-    <div>
-      <h1>优选 收银台</h1>
-      <span>{props.auth.user.nickname}</span>
-    </div>
+    <header className="pay-header">
+      <div className="pay-head-box">
+        <div className="pay-head-tit f_wrap">
+          <div className="pay-logo f_l"><img src={`${HOST}/image/ui/logo_60x60.png`} /></div>
+          <div className="pay-logo-font f_r">优选 收银台</div>
+        </div>
+        <div className="pay-user">账户：{props.nickname}</div>
+      </div>
+    </header>
   )
 }
 
 function mapStateToProps(state) {
   return {
-    auth: state.auth
+    nickname: state.auth.user.nickname
   }
 }
 export default connect(mapStateToProps)(PayHeader)

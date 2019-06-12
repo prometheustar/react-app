@@ -39,6 +39,7 @@ class ChatWindow extends React.Component {
     this.state = {
       hasError: false,
       message: '',
+      waitMessage: '',
       showChatImage: false,
       chatImage: ''
     }
@@ -79,16 +80,32 @@ class ChatWindow extends React.Component {
       }
       var formData = new FormData()
       formData.append('picture', file)
+      var waitImg = `<waitimg size="${file.size}"><img src="${HOST}/image/ui/wait.gif"></waitimg>`
+      _this.setState({
+        waitMessage: _this.refs.textarea.innerHTML += waitImg
+      })
+
       axios.post(`${HOST}/api/users/save_chat_image`, formData)
         .then(res => {
-          if (res.data.success) {
-            _this.props.setWaitMessageAction(_this.refs.textarea.innerHTML += `<img src="${HOST}/image/member/chat/${res.data.payload}_w80.jpg">`)
-          }else {
-            console.log(res)
+          if (res.data.success) {//new RegExp(`<waitimg size="${file.size}">[\\d\\D]+</waitimg>`)
+            var nowMessage = _this.refs.textarea.innerHTML.replace(waitImg,`<img src="${HOST}/image/member/chat/${res.data.payload}_w80.jpg">`)
+            return _this.setState({
+              waitMessage: nowMessage
+            }, function() {
+              _this.props.setWaitMessageAction(nowMessage)
+            })
+
           }
+          // 失败了
+          _this.setState({
+            waitMessage: _this.refs.textarea.innerHTML.replace(waitImg, '')
+          })
         })
         .catch(err => {
           console.error(err)
+          _this.setState({
+            waitMessage: _this.refs.textarea.innerHTML.replace(waitImg, '')
+          })
         })
     }
     document.getElementsByClassName("chatw-show-wrap")[0].onclick = function(e) {
@@ -100,6 +117,47 @@ class ChatWindow extends React.Component {
         })
       }
     }
+  }
+
+  chatImageChange(e) {
+    var _this = this
+    if (!_this.props.chat.chatnow) return;
+    var file = e.currentTarget.files[0]
+    if (!file || file.size > '5048576‬') {
+      return; // 5M 以下的文件
+    }else if (!/^image\/(jpeg|png|gif|x-icon)$/.test(file.type)) {
+      return; // 不支持的格式
+    }
+    var formData = new FormData()
+    formData.append('picture', file)
+    var waitImg = `<waitimg size="${file.size}"><img src="${HOST}/image/ui/wait.gif"></waitimg>`
+    _this.setState({
+      waitMessage: _this.refs.textarea.innerHTML += waitImg
+    })
+
+    axios.post(`${HOST}/api/users/save_chat_image`, formData)
+      .then(res => {
+        if (res.data.success) {//new RegExp(`<waitimg size="${file.size}">[\\d\\D]+</waitimg>`)
+          var nowMessage = _this.refs.textarea.innerHTML.replace(waitImg,`<img src="${HOST}/image/member/chat/${res.data.payload}_w80.jpg">`)
+          return _this.setState({
+            waitMessage: nowMessage
+          }, function() {
+            _this.props.setWaitMessageAction(nowMessage)
+          })
+
+        }
+        // 失败了
+        _this.setState({
+          waitMessage: _this.refs.textarea.innerHTML.replace(waitImg, '')
+        })
+      })
+      .catch(err => {
+        console.error(err)
+        _this.setState({
+          waitMessage: _this.refs.textarea.innerHTML.replace(waitImg, '')
+        })
+      })
+
   }
 
   componentWillUnmount() {
@@ -163,20 +221,23 @@ class ChatWindow extends React.Component {
   }
 
   sendMessage() {
-    var message = this.refs.textarea.innerHTML.trim()
+    var message = this.refs.textarea.innerHTML.trim().replace(new RegExp(`<waitimg>[\\d\\D]+</waitimg>`), '')
     if (message === '' || !this.props.chat.chatnow) return;
     // var images = message.match(/\w+?\.(gif|png|jpg|jpeg|ico)(?=_w80\.jpg">)/g)
     // 取出图片
     var images = message.match(/[A-z0-9]{10}_\d{8}\.(gif|png|jpg|jpeg|ico)(?=_w80\.jpg")/g)
+
     if (images) {
-      var msgs = message.split(/<img [\w\W]+>/) // 根据图片分割消息
+      var msgs = message.split(/<img [\w\W]+?>/) // 根据图片分割消息，非贪婪匹配
+      // console.log(msgs)
       message = msgs[0]
-      // var img = ''
       for (var i = 1, len = msgs.length; i < len; i++) {
         message += `{{=${images[i-1]}}}${msgs[i]}`
       }
     }
     message = message.replace(/<(span|font|div|br|img)[\d\D]*?>/g, '').replace(/<\/(div|span|font)>/g, '').replace(/&nbsp;/g, ' ').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    // console.log(images)
+    // return console.log(message)
     //message = message.replace(/(<\/span>|<span[^>]+?>)/g, '').replace(/(<\/div>|<div[^>]*?>)/g, '').replace(/<br>/g, '').replace(/&nbsp;/g, ' ').replace(/</g, '&lt;').replace(/>/g, '&gt;')
     if (message === '') return;
     if (wss.status !== 'open') {
@@ -290,10 +351,14 @@ class ChatWindow extends React.Component {
               contentEditable={!!chatnow}
               suppressContentEditableWarning="true"
               onKeyPress={this.textareaPress.bind(this)}
-              dangerouslySetInnerHTML={{__html: this.state.message}}
+              dangerouslySetInnerHTML={{__html: this.state.waitMessage}}
             ></div>
           </div>
           <div className="chatw-s-sendbox">
+            <div className="chat-add-img">
+              <input onChange={this.chatImageChange.bind(this)} className="add-img-file" type="file"/>
+              <img src={`${HOST}/image/ui/plus-circle.png`} title="添加图片"/>
+            </div>
             {
               this.state.message && <div className="char-err">{this.state.message}</div>
             }

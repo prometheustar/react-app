@@ -8,6 +8,7 @@ import register from './register'
 import auth from './authReducer'
 import product from './product'
 import order from './order'
+import myOrders from './myOrders'
 import chat from './chat'
 import messageBox from './messageBox'
 
@@ -16,7 +17,9 @@ let rootReducer = combineReducers({
 	auth,
   product,
   order,
+  myOrders,
   chat,
   messageBox
 });
+
 export default rootReducer;

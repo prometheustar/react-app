@@ -60,7 +60,7 @@ const OrderItem = (props) => {
                   {
                     item.postWay && <div>
                       <div className="oip-exp-post">{item.postWay}</div>
-                      <div className="oip-exp-num">{item.expNumber}</div>
+                      <p title={item.expNumber} className="oip-exp-num">{item.expNumber}</p>
                     </div>
                   }
                 </div>

@@ -1,3 +1,6 @@
+/**
+ * 用作服务端渲染打包入口
+ */
 import React from 'react'
 import App from './App'
 import { Provider } from 'react-redux'

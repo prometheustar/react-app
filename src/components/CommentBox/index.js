@@ -109,7 +109,6 @@ class CommentBox extends React.Component {
         return this.setState({ errors: {submit: res.data.message} })
       }
       // 评论成功
-      console.log(res)
       if (socket.status === 'open') {
         socket.ws.send(JSON.stringify({
           type: 'get_orders',

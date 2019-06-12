@@ -27,12 +27,12 @@ const store = createStore(rootReducer, initialState, compose(...composeMiddlewar
 
 // 订阅更新函数，每次状态更新都会执行
 store.subscribe(() => {
-  // if (typeof(window) !== 'object') return;
-  // var state = store.getState()
-  // window.localStorage.setItem('localStoreState', JSON.stringify({
-  //   order: state.order,
-  //   // auth: state.auth
-  // }))
+  if (typeof(window) !== 'object') return;
+  var state = store.getState()
+  window.localStorage.setItem('localStoreState', JSON.stringify({
+    order: state.order,
+    auth: state.auth
+  }))
 })
 
 export default store;

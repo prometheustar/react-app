@@ -3,11 +3,11 @@ import axios from 'axios'
 import queryString from 'query-string'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
 
 import config from '../../utils/config'
-import { transSearchKeyword } from '../../utils/tools'
-import { alertMessageAction } from '../../flux/actions/messageAction'
+import { transSearchKeyword, transURL } from '../../utils/tools'
+import { alertMessageAction, confirmMessageAction } from '../../flux/actions/messageAction'
+import { contactItemToChatAction } from '../../flux/actions/chatActions'
 
 import './index.scss'
 import Header from '../../components/Header'
@@ -16,12 +16,10 @@ import SubStore from './subpage/SubStore'
 import Loading from '../../components/PrivateRoute/subpage/WaitVerify'
 import Footer from '../../components/Footer'
 
-import { setSearchGoodsAction, setSearchKeyAction } from '../../flux/actions/productActions'
-
 // 获取浏览器视口的高度
 function getWindowHeight(){
 　　var windowHeight = 0;
-　　if(document.compatMode == "CSS1Compat"){
+　　if(document.compatMode === "CSS1Compat"){
 　　　　windowHeight = document.documentElement.clientHeight;
 　　}else{
 　　　　windowHeight = document.body.clientHeight;
@@ -65,6 +63,7 @@ class SearchProduct extends Component {
       limit: 0, // 搜索页数
       end: false,  // 分页结束
       products: [], // 搜索结果
+      length: -1,
       loading: true,
       errors: {}
     }
@@ -72,14 +71,15 @@ class SearchProduct extends Component {
 
   componentWillMount() {
     var condition = this.props.location.search
-    var search = queryString.parse(condition);
+    var search = queryString.parse(condition)
 
     // 第一次请求 20 条数据，后面每次请求 10 条
     condition = ''
     if (search.q) {
     // 1. 有关键字
       condition += `&q=${encodeURIComponent(search.q)}`
-    }else if (/^[1-9]\d*$/.test(search.storeId)) {
+    }
+    if (/^[1-9]\d*$/.test(search.storeId)) {
     // 2. 有店铺 id
       condition += `&storeId=${search.storeId}`
     }else if (/^[1-9]\d*$/.test(search.detailId)) {
@@ -99,6 +99,10 @@ class SearchProduct extends Component {
       })
     }
 
+    if (search.q) {
+      this.setState({ keyword: search.q.replace(/\+/g, ' ') })
+    }
+
     axios.get(`${HOST}/api/goods/search_product?limit1=0&limit2=20${condition}`)
       .then(res => {
         if (!res.data.success) {
@@ -109,7 +113,8 @@ class SearchProduct extends Component {
         }
         this.setState({
           loading: false,
-          products: res.data.payload.products,
+          length: res.data.payload.length,
+          products: res.data.payload.products || [],
           end: res.data.payload.end,
           condition,
           keyword: search.q ? search.q.replace(/\+/g, ' ') : ''
@@ -126,8 +131,11 @@ class SearchProduct extends Component {
   }
 
   componentDidMount() {
+    window.document.title = (this.state.keyword ? this.state.keyword + '-' : '') + '优选-ChoicePerfect'
+
+    // 如果商品有更多，往下滑一直加载
     var _this = this
-    window.onscroll = function () {
+    window.onscroll = function() {
       if (!_this.state.end && !_this.state.loading && getScrollTop() + getWindowHeight() >= getDocumentHeight() - 200) {
         // 先暂停后发送请求
         _this.setState({
@@ -136,6 +144,7 @@ class SearchProduct extends Component {
             var get = `limit1=${this.state.products.length}&limit2=10${this.state.condition}`
             axios.get(`${HOST}/api/goods/search_product?${get}`)
               .then(res => {
+                console.log(res)
                 if (!res.data.success) {
                   return _this.setState({
                     loading: false,
@@ -148,9 +157,9 @@ class SearchProduct extends Component {
                   end: res.data.payload.end,
                   // limit: Number(_this.state.limit) + 1
                 }, function () {
-                  if (res.data.payload.end) {
-                    window.onscroll = null
-                  }
+                  // if (res.data.payload.end) {
+                  //   window.onscroll = null
+                  // }
                   _this.props.history.push(`/search_products?${get}`)
                 })
               })
@@ -163,6 +172,25 @@ class SearchProduct extends Component {
         })
       }
     }
+
+    // 点击与店家卖家聊天
+    this.refs.productsWrap.onclick = function(e) {
+
+      var userId = e.target.getAttribute('connectid')
+      if (/^[1-9]\d*$/.test(userId)) {
+        if (!_this.props.isLogin) {
+          return _this.props.confirmMessageAction('登录后与卖家聊天，现在登录吗？', function() {
+            _this.props.history.push('/login?prev=' + transURL(_this.props.location.pathname + _this.props.location.search))
+          })
+        }
+        var avatar = e.target.getAttribute('avatar')
+        var nickname = e.target.getAttribute('nickname')
+        if (avatar && nickname) {
+          contactItemToChatAction({ userId: parseInt(userId), avatar, nickname })
+        }
+      }
+    }
+
   }
 
   componentWillUnmount() {
@@ -190,7 +218,8 @@ class SearchProduct extends Component {
           })
         }
         this.setState({
-          products: res.data.payload.products,
+          length: res.data.payload.length || 0,
+          products: res.data.payload.products || [],
           end: res.data.payload.end,
           condition
         }, () => {
@@ -241,13 +270,18 @@ class SearchProduct extends Component {
           {
             this.state.products.length > 0 && <SubStore goods={this.state.products} />
           }
-         { products.map((item, index) => <SearchProductsList products={item} key={index}/>) }
-         {
-          this.state.loading && <Loading message="努力加载中。。。" />
-         }
-         {
-          this.state.condition === '' && <h2 style={{height: '200px', lineHeight: '200px'}}>搜索条件为空！</h2>
-         }
+          {
+            this.state.length === 0 ? <div className="se-notfound">没有搜索到"<span className="se-not-f1">{this.state.keyword}</span>"相关的商品，为您推荐</div> : null
+          }
+          <div ref="productsWrap">
+            { products.map((item, index) => <SearchProductsList products={item} key={index}/>) }
+          </div>
+          {
+            this.state.loading && <Loading message="努力加载中。。。" />
+          }
+          {
+            this.state.condition === '' && <h2 style={{height: '200px', lineHeight: '200px'}}>搜索条件为空！</h2>
+          }
         </div>
         <Footer />
       </div>
@@ -255,5 +289,10 @@ class SearchProduct extends Component {
   }
 }
 
-export default connect(null, { alertMessageAction })(SearchProduct)
+function mapStateToProps(state) {
+  return {
+    isLogin: state.auth.isLogin
+  }
+}
+export default connect(mapStateToProps, { alertMessageAction, confirmMessageAction, contactItemToChatAction })(SearchProduct)
 

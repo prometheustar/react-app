@@ -43,7 +43,7 @@ class Order extends React.Component {
         type: 'get_orders',
         content: { limit: this.state.limit }
       }))
-    }else if (typeof(window) === 'object') {
+    }else if (typeof(window) === 'object') {  // 页面刷新后需要时间验证本地token，
       setTimeout(() => {
         if (socket.status === 'open') {
           socket.ws.send(JSON.stringify({
@@ -53,6 +53,10 @@ class Order extends React.Component {
         }
       }, 200)
     }
+  }
+
+  componentDidMount() {
+    window.document.title = '我的优选-我的订单'
   }
 
   routeChangeHandler(route) {
@@ -87,7 +91,6 @@ class Order extends React.Component {
         })
 
     }else if (nav === 'sign') {
-      // return this.props.alertMessageAction('睡瞌睡看看书')
       if (socket.status !== 'open') {
         return this.setState({ errors: {...this.state.errors, sign: '网络未连接'} })
       }
@@ -235,7 +238,7 @@ Order.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  myOrders: state.order.myOrders || {status: {}, orders:[]},
+  myOrders: state.myOrders,  // || {status: {}, orders:[]},
   userId: state.auth.user.userId
 })
 

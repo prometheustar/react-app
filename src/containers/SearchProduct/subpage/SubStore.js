@@ -3,7 +3,6 @@ import axios from 'axios'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import classnames from 'classnames'
-import { connect } from 'react-redux'
 import config from '../../../utils/config'
 
 const HOST = config.HOST

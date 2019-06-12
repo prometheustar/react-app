@@ -1,4 +1,15 @@
 // .（⊙\.⊙）
+
+input:-internal-autofill-selected {
+    background-color: transparent !important;
+}
+
+// ::-webkit-scrollbar {
+//     width: 0;
+//     height: 0;
+//     color: transparent;
+// }
+
 html {
   font-size: 12px;
 }
@@ -36,6 +47,19 @@ ul,li {
   list-style:none;
   margin: 0;
   padding: 0;
+}
+.f_wrap {
+  &::after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+}
+.f_l {
+  float: left;
+}
+.f_r {
+  float: right;
 }
 
 .Ti {

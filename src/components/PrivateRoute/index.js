@@ -5,12 +5,14 @@ import WaitVerify from './subpage/WaitVerify'
 
 import { transURL } from '../../utils/tools'
 
+// hydrate 注水时 bug
+const waitComponent = typeof window === 'object' ? <WaitVerify message="账号认证中...." /> : null
+
 const PrivateRoute = ({component: Component, isLogin, isVerify, ...rest}) => (
   <Route {...rest} render={(props) => (
-      isLogin
-      ? <Component {...props} />
+      isLogin ? <Component {...props} />
       : isVerify  // 本地 token 验证中
-      ? <WaitVerify message="账号认证中...." />
+      ? waitComponent
       : <Redirect to={`/login?prev=${transURL(props.location.pathname + props.location.search)}`} />
     )} />
 )

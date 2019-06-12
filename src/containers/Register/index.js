@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import classnames from 'classnames'
+import SparkMD5 from 'spark-md5'
 
 import config from '../../utils/config'
 import { alertMessageAction } from '../../flux/actions/messageAction'
@@ -32,6 +33,10 @@ class Register extends React.Component {
     this.inputTextChange = this.inputTextChange.bind(this)
     this.inputTextFocus = this.inputTextFocus.bind(this)
     this.inputTextBlur = this.inputTextBlur.bind(this)
+  }
+
+  componentDidMount() {
+    window.document.title = '优选--账户注册'
   }
 
   inputTextChange(e) {
@@ -76,7 +81,7 @@ class Register extends React.Component {
       }
     }, 1000)
     sendingSMS = true
-    axios.post(`${HOST}/api/operator/sms`, {phone: this.state.phone})
+    axios.post(`${HOST}/api/operator/testsms`, {phone: this.state.phone})
       .then(res => {
         if (!res.data.success) {
           return this.setState({
@@ -96,6 +101,7 @@ class Register extends React.Component {
   registerSubmit(e) {
     e.preventDefault()
     var errors = {}
+    // return console.log(SparkMD5.hash(this.state.password))
     if (!/^[^0-9][\w\W]{2,10}$/.test(this.state.nickname)) {
       errors.nickname = '昵称格式有误'
     }
@@ -114,7 +120,6 @@ class Register extends React.Component {
       errors.password2 = '请再次输入密码'
     }
     if (Object.keys(errors).length > 0) {
-      console.log(errors)
       return this.setState({ errors: errors })
     }
     axios.post(`${HOST}/api/users/register`, {

@@ -40,6 +40,10 @@ class Address extends React.Component {
     }
   }
 
+  componentDidMount() {
+    window.document.title = '我的优选-收货地址'
+  }
+
   setDefailtChange(e) {
     this.setState({
       isDefault: e.target.checked

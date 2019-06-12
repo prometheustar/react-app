@@ -1,7 +1,7 @@
 // 将两个数转换成整数相乘
 export const intMultiplication = function (a, b) {
-  a = a+''
-  b = b+''
+  a = a + ''
+  b = b + ''
   var deci = 0  // 2个操作数的小数位数
   // 判断是否小数
   if (/^\d+\.\d+$/.test(a)) {
@@ -84,6 +84,12 @@ export const transURL = (url, reverse) => {
   if (typeof url !== 'string' || url === '')
     return ''
   if (reverse)
-    return url.replace(/OxO/g, '/').replace(/OdO/g, '=').replace(/OwO/g, '?')
-  return url.replace(/\//g, 'OxO').replace(/\=/g, 'OdO').replace(/\?/g, 'OwO')
+    return url.replace(/OxO/g, '/').replace(/OdO/g, '=').replace(/OwO/g, '?').replace(/OaO/g, '&')
+  return url.replace(/\//g, 'OxO').replace(/\=/g, 'OdO').replace(/\?/g, 'OwO').replace(/&/g, 'OaO')
+}
+
+export const cutString = (str, len) => {
+  if (typeof str !== 'string') return '';
+  len = len || 10
+  return str.length > len ? str.substring(0, len) + '...' : str
 }

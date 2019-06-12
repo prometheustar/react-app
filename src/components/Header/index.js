@@ -1,15 +1,23 @@
-import React, {Component} from 'react'
-import {Link, withRouter} from 'react-router-dom'
-import {connect} from 'react-redux'
+import React, { Component } from 'react'
+import { Link, withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import './index.scss'
 import { setAuthToken, setCurrentUser } from '../../utils/setAuth'
+
 class AppHeader extends Component {
 	constructor() {
 		super();
 		this.state = {
-
+      chooseUrl: {
+        management: 'http://118.126.108.36/image/files/choice_perfect_manager.msi', // 管理端路径
+        control: '/choose/Control.jsp',
+        register: '/choose/Register.jsp',
+        login: '/choose/index.jsp',
+        order: '/choose/OrderShow.jsp',
+        waitSend: '/choose/WatishipmentsGoods.jsp'
+      }
 		}
 	}
 	// 退出
@@ -57,11 +65,30 @@ class AppHeader extends Component {
                 <div><Link to="/member/address">收货地址</Link></div>
               </div>
             </li>
-						<li className="h-my">
-              <Link to="/member">商家支持</Link>
-              <div className="h-my-choi">
-                <div><Link to="/member/safety">注册商家</Link></div>
-                <div><Link to="/member">管理端下载</Link></div>
+
+            {
+              !auth.isLogin || (auth.isLogin && auth.user.isSeller !== 1) ? (
+                <li className="h-my">
+                  <a href={this.state.login}>商家支持</a>
+                    <div className="h-my-choi">
+                      <div><a href={this.state.register}>注册商家</a></div>
+                      <div><a href={this.state.management}>管理端下载</a></div>
+                  </div>
+                </li>) : (
+                  <li className="h-my">
+                      <a href={this.state.control}>卖家中心</a>
+                      <div className="h-my-choi">
+                        <div><a href={this.state.waitSend}>待发货宝贝</a></div>
+                        <div><a href={this.state.order}>出售中宝贝</a></div>
+                        <div><a href={this.state.management}>管理端下载</a></div>
+                    </div>
+                  </li>
+                )
+            }
+            <li className="h-my">
+                <a href="javascript:void(0);">联系客服</a>
+                <div className="h-my-choi">
+                  <div><a href={this.state.management}>管理端下载</a></div>
               </div>
             </li>
 					</ul>
